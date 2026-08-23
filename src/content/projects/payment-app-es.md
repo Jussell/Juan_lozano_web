@@ -7,6 +7,7 @@ summary: Una experiencia de pago más clara, guiada por investigación, arquitec
 role: UX Researcher / Product Designer
 duration: "[Agregar duración]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Research.png
 tags: [Investigación, Arquitectura de información, Agile]

@@ -7,6 +7,7 @@ summary: Encontrar insights accionables mediante métodos de investigación, car
 role: UX Researcher
 duration: "[Agregar duración]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Research.png
 tags: [Métodos de investigación, Card sorting]

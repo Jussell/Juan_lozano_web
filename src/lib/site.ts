@@ -18,6 +18,16 @@ export const copy = {
     contactTitle: 'Have a product challenge?',
     contactText: 'Tell me what you are working on. I’m open to thoughtful collaborations and product teams that care about their users.',
     emailMe: 'Email me',
+    contactNameLabel: 'Name',
+    contactNamePlaceholder: 'Your name',
+    contactEmailLabel: 'Email',
+    contactEmailPlaceholder: 'your@email.com',
+    contactMessageLabel: 'Message',
+    contactMessagePlaceholder: 'Tell me about your project...',
+    contactSubmit: 'Send message',
+    contactSending: 'Sending...',
+    contactSuccess: 'Message sent! I will get back to you soon.',
+    contactError: 'Something went wrong. Please try again or email me directly.',
     aboutTitle: 'Design with intent',
     aboutText: 'I connect research, interaction design and delivery to help teams make better product decisions.',
     cv: 'Download CV',
@@ -40,6 +50,16 @@ export const copy = {
     contactTitle: '¿Tienes un reto de producto?',
     contactText: 'Cuéntame en qué estás trabajando. Me interesan las colaboraciones cuidadosas y los equipos que diseñan pensando en sus usuarios.',
     emailMe: 'Escríbeme',
+    contactNameLabel: 'Nombre',
+    contactNamePlaceholder: 'Tu nombre',
+    contactEmailLabel: 'Correo',
+    contactEmailPlaceholder: 'tu@correo.com',
+    contactMessageLabel: 'Mensaje',
+    contactMessagePlaceholder: 'Cuéntame sobre tu proyecto...',
+    contactSubmit: 'Enviar mensaje',
+    contactSending: 'Enviando...',
+    contactSuccess: '¡Mensaje enviado! Te responderé lo antes posible.',
+    contactError: 'Algo salió mal. Inténtalo de nuevo o escríbeme directamente.',
     aboutTitle: 'Diseño con intención',
     aboutText: 'Conecto investigación, diseño de interacción y ejecución para ayudar a los equipos a tomar mejores decisiones de producto.',
     cv: 'Descargar CV',
@@ -53,3 +73,5 @@ export const copy = {
     language: 'EN'
   }
 };
+
+export type Locale = keyof typeof copy;

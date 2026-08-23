@@ -7,6 +7,7 @@ summary: Mapeo y mejora de flujos de venta online mediante arquitectura de infor
 role: Product Designer
 duration: "[Agregar duración]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Metodology.png
 tags: [Arquitectura de información, OMS]

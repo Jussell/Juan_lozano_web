@@ -7,6 +7,7 @@ summary: A clearer payment experience shaped by research, information architectu
 role: UX Researcher / Product Designer
 duration: "[Add duration]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Research.png
 tags: [Research, Information architecture, Agile]

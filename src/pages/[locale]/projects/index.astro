@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'; import Layout from '../../../components/Layout.astro'; import Header from '../../../components/Header.astro'; import Footer from '../../../components/Footer.astro'; import ProjectCard from '../../../components/ProjectCard.astro'; import { copy } from '../../../lib/site';
+import type { Locale } from '../../../lib/site';
 export async function getStaticPaths(){return [{params:{locale:'en'}},{params:{locale:'es'}}];}
-const {locale}=Astro.params; const projects=(await getCollection('projects')).filter((p)=>p.data.locale===locale); const t=copy[locale];
+const locale: Locale = Astro.params.locale === 'es' ? 'es' : 'en'; const projects=(await getCollection('projects')).filter((p)=>p.data.locale===locale && !p.data.draft); const t=copy[locale];
 ---
 <Layout locale={locale} title={t.selectedWork}><Header locale={locale}/><main id="main" class="section shell"><p class="eyebrow">{t.eyebrow}</p><h1 class="case-hero" style="padding:0 0 50px">{t.selectedWork}</h1><div class="project-grid">{projects.map((project)=><ProjectCard project={project} locale={locale}/>)}</div></main><Footer/></Layout>

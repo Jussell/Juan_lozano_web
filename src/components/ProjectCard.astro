@@ -1,5 +1,14 @@
 ---
 import { copy } from '../lib/site';
-const { project, locale } = Astro.props; const t = copy[locale];
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  locale: Locale;
+}
+
+const { project, locale } = Astro.props;
+const t = copy[locale];
 ---
 <a class="project-card" href={`/${locale}/projects/${project.data.slug}/`}><figure><img src={`/${project.data.cover}`} alt={project.data.title} loading="lazy" /></figure><h3 class="project-title">{project.data.title}</h3><p class="tags">{project.data.tags.map((tag) => <span class="tag">{tag}</span>)}</p>{project.data.status === 'in-progress' && <p class="eyebrow" style="margin:14px 0 0">{t.inProgress}</p>}</a>

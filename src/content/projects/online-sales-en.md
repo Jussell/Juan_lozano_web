@@ -7,6 +7,7 @@ summary: Mapping and improving online sales flows through information architectu
 role: Product Designer
 duration: "[Add duration]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Metodology.png
 tags: [Information architecture, OMS]

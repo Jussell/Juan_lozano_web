@@ -7,6 +7,7 @@ summary: Finding actionable insights through research methods, card sorting and 
 role: UX Researcher
 duration: "[Add duration]"
 status: in-progress
+draft: true
 featured: true
 cover: images/Research.png
 tags: [Research methods, Card sorting]

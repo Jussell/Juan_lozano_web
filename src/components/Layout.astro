@@ -1,6 +1,14 @@
 ---
 import '../styles/global.css';
 import { site } from '../lib/site';
+import type { Locale } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+}
+
 const { title = site.name, description = 'Portfolio of Juan Lozano, product designer.', locale = 'en' } = Astro.props;
 const path = Astro.url.pathname;
 const alternate = locale === 'en' ? path.replace('/en', '/es') : path.replace('/es', '/en');
