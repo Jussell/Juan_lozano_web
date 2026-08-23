@@ -5,7 +5,7 @@ title: Aplicación de pagos
 shortTitle: App de pagos
 summary: Una experiencia de pago más clara, guiada por investigación, arquitectura de información y colaboración ágil.
 role: UX Researcher / Product Designer
-duration: [Agregar duración]
+duration: "[Agregar duración]"
 status: in-progress
 featured: true
 cover: images/Research.png

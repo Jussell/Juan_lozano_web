@@ -5,7 +5,7 @@ title: Flujos de venta online
 shortTitle: Flujos de venta
 summary: Mapeo y mejora de flujos de venta online mediante arquitectura de información y claridad operativa.
 role: Product Designer
-duration: [Agregar duración]
+duration: "[Agregar duración]"
 status: in-progress
 featured: true
 cover: images/Metodology.png

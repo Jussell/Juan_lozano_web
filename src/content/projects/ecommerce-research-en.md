@@ -5,7 +5,7 @@ title: E-commerce UX Research
 shortTitle: E-commerce Research
 summary: Finding actionable insights through research methods, card sorting and synthesis.
 role: UX Researcher
-duration: [Add duration]
+duration: "[Add duration]"
 status: in-progress
 featured: true
 cover: images/Research.png

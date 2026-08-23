@@ -5,7 +5,7 @@ title: Online Sales Flows
 shortTitle: Sales Flows
 summary: Mapping and improving online sales flows through information architecture and operational clarity.
 role: Product Designer
-duration: [Add duration]
+duration: "[Add duration]"
 status: in-progress
 featured: true
 cover: images/Metodology.png

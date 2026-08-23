@@ -5,7 +5,7 @@ title: Payment App
 shortTitle: Payment App
 summary: A clearer payment experience shaped by research, information architecture and agile collaboration.
 role: UX Researcher / Product Designer
-duration: [Add duration]
+duration: "[Add duration]"
 status: in-progress
 featured: true
 cover: images/Research.png
