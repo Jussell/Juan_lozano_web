@@ -2,7 +2,9 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { site } from '../../lib/site';
 
-export const prerender = false;
+// When building for GitHub Pages (static backup), we must prerender this route to avoid build errors,
+// even though the contact form submission won't work on the static host.
+export const prerender = process.env.GITHUB_PAGES === 'true';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
