@@ -15,7 +15,7 @@ Open the local URL printed by Astro. Production output is generated with:
 npm run build
 ```
 
-The site is configured for GitHub Pages at `/Jusell-web-site`.
+Vercel is the primary deployment platform. GitHub Pages remains configured as a backup deployment from the `main` branch.
 
 ## Add a project
 
