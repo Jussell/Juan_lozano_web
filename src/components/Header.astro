@@ -1,0 +1,5 @@
+---
+import { copy, site } from '../lib/site';
+const { locale } = Astro.props; const t = copy[locale];
+---
+<header class="site-header shell"><a class="brand" href={`/${locale}/`}>{site.brand}<span>●</span></a><nav class="nav" aria-label="Main navigation"><a href={`/${locale}/#work`}>{t.nav.work}</a><a href={`/${locale}/#about`}>{t.nav.about}</a><a href={`/${locale}/#contact`}>{t.nav.contact}</a><a class="lang" href={Astro.url.pathname.replace(`/${locale}`, locale === 'en' ? '/es' : '/en')}>{t.language}</a></nav></header>

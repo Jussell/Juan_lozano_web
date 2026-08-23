@@ -1,0 +1,8 @@
+---
+import '../styles/global.css';
+import { site } from '../lib/site';
+const { title = site.name, description = 'Portfolio of Juan Lozano, product designer.', locale = 'en' } = Astro.props;
+const path = Astro.url.pathname;
+const alternate = locale === 'en' ? path.replace('/en', '/es') : path.replace('/es', '/en');
+---
+<!doctype html><html lang={locale}><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content={description} /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><link rel="icon" href="/images/favicon-32x32.png" /><title>{title} · {site.name}</title></head><body><a class="skip" href="#main">Skip to content</a><slot /><link rel="alternate" hreflang={locale === 'en' ? 'es' : 'en'} href={alternate} /></body></html>

@@ -1,0 +1,123 @@
+# Plantilla — Plan de desarrollo (documento vivo)
+
+> **Qué es esto:** la estructura estándar para planear cualquier desarrollo no trivial (>1 sesión)
+> en este repo. Nació de la migración NestJS/Angular
+> ([`docs/migracion-angular-bitacora/MIGRACION_NEST_ANGULAR.md`](./migracion-angular-bitacora/MIGRACION_NEST_ANGULAR.md),
+> 10 fases sin romper producción) y se usa activamente en
+> [`docs/migracion-multi-tenant/PLAN_MIGRACION.md`](./migracion-multi-tenant/PLAN_MIGRACION.md). Copiar este esqueleto a
+> `docs/<NOMBRE_PLAN>.md` y borrar las líneas de guía en cursiva.
+
+---
+
+# Plan: <título del desarrollo>
+
+> **Cómo usar este archivo**
+> Es un documento vivo. Cada sesión corta toma **el siguiente paso sin marcar `[ ]`**, lo ejecuta,
+> lo **verifica con su `Verif:`** y lo marca `[x]`. **Nunca escribas el detalle (qué se hizo,
+> comandos, resultados, hallazgos) directamente bajo el punto en este archivo** — ni siquiera
+> "temporalmente" — va **siempre** en `docs/fase-<n>-<tema>.md` (crear ese archivo, con su
+> encabezado de subfase, en la primera entrada de esa fase). En este plan, al marcar `[x]`, el punto
+> se queda igual de corto que estaba (qué + ✅/❌); si acaso se agrega "ver detalle en fase-N".
+> Si la fase se cierra, añade además una línea de resumen en la "Bitácora" al final.
+>
+> **Regla de oro:** *<qué no se puede romper mientras el plan avanza — típicamente: producción sigue
+> intacta hasta el cutover; nada se borra hasta que su reemplazo esté verificado>.*
+>
+> **Nota de formato:** aquí solo un comentario corto por punto (qué + ✅/❌); el detalle (comandos,
+> valores exactos, hallazgos) vive **solo** en la bitácora de fase — economía de contexto: este
+> archivo se relee cada sesión, la bitácora de fase no.
+
+## Reglas de ejecución para el agente
+
+El agente debe tratar este plan como la **fuente de verdad del desarrollo** y seguir estas reglas:
+
+1. **Ejecutar en orden:** tomar únicamente el siguiente punto `[ ]` disponible y respetar sus dependencias.
+2. **Verificar antes de marcar:** ningún punto puede pasar a `[x]` sin ejecutar su `Verif:` y obtener evidencia del resultado.
+3. **No asumir:** si el código, el plan y la realidad del repositorio no coinciden, detener la ejecución de esa tarea y documentar la discrepancia.
+4. **No reabrir decisiones:** las decisiones registradas como cerradas no se modifican sin autorización explícita.
+5. **Actualizar el estado:** si una tarea cambia el alcance, las dependencias, la estructura objetivo o los riesgos, actualizar primero el plan y luego continuar.
+6. **Separar ejecución de evidencia:** el plan conserva únicamente el estado y los criterios de verificación; comandos, resultados, errores y hallazgos van a la bitácora de fase.
+7. **Detenerse ante bloqueos:** si una verificación falla o existe un riesgo no contemplado que pueda comprometer producción, no avanzar a tareas dependientes.
+8. **Definition of Done:** el desarrollo solo puede declararse terminado cuando no existan tareas `[ ]` pendientes, las verificaciones E2E hayan sido ejecutadas y los riesgos críticos estén resueltos o explícitamente aceptados.
+
+---
+
+## Contexto (por qué se hace esto)
+
+*Problema o necesidad, qué lo motivó, y el resultado esperado. Suficiente para que una sesión nueva
+entienda el porqué sin leer nada más.*
+
+### Decisiones tomadas (no re-litigar)
+
+*Las decisiones de arquitectura/alcance ya cerradas con el usuario, una viñeta por decisión con su
+porqué en una línea. Ninguna sesión futura debe reabrirlas sin pedirlo explícitamente.*
+
+### Estructura objetivo
+
+*Árbol del repo (o del módulo) mostrando solo lo que cambia/aparece, con una nota por entrada.*
+
+## Mapa de referencia (del código actual)
+
+*Estado real verificado del código que el plan va a tocar: modelos, servicios, firmas, env vars,
+conteos de datos de referencia. Con fecha de verificación. Es lo que evita planear contra un código
+imaginado.*
+
+---
+
+# FASE 1 — <nombre> → detalle en `docs/fase-1-<tema>.md`
+
+### 1.1 <subfase pequeña, implementable en una sesión corta>
+- [ ] *Qué se hace, en una línea, autocontenido.*
+- **Depends on:** *ninguna / 1.x, si aplica.*
+- **Verif:** *comprobación concreta y ejecutable declarada ANTES de implementar: comando + resultado
+  esperado, conteo, test, o verificación visual en Chrome si es UI. Nunca "funciona correctamente".*
+
+*(al cerrar 1.1: marcar `[x]` sin añadir nada más aquí — el "Hecho:", los comandos corridos y sus
+resultados van en `docs/fase-1-<tema>.md`, bajo un encabezado `## 1.1 ...`)*
+
+### 1.2 ...
+
+- [ ] *Qué se hace, en una línea, autocontenido.*
+- **Depends on:** *1.1, si aplica.*
+- **Verif:** *comprobación concreta y ejecutable.*
+
+*(repetir por fase; cada subfase SIEMPRE lleva su `Verif:`; nunca acumules un bloque "Hecho:" bajo
+el checklist de este archivo — esa es la fuga de contexto que esta plantilla existe para evitar)*
+
+---
+
+# FASE 2 — <nombre> → detalle en `docs/fase-2-<tema>.md`
+
+### 2.1 <subfase pequeña, implementable en una sesión corta>
+- [ ] *Qué se hace, en una línea, autocontenido.*
+- **Depends on:** *fase/subfase requerida, si aplica.*
+- **Verif:** *comprobación concreta y ejecutable.*
+
+---
+
+## Riesgos y mitigaciones
+
+*Una viñeta por riesgo real (pérdida de datos, paridad, infra nueva, drift de producción durante el
+desarrollo) con su mitigación concreta.*
+
+- **<Riesgo>:** <mitigación>.
+- **<Riesgo>:** <mitigación>.
+
+---
+
+## Verificación end-to-end (al cerrar)
+
+*Checklist numerada de lo que debe funcionar de punta a punta antes de declarar el plan terminado
+(levantar el stack, flujos de usuario completos, suites de tests verdes).*
+
+1. *<Verificación E2E>.*
+2. *<Verificación E2E>.*
+3. *<Verificación E2E>.*
+
+---
+
+## Bitácora (índice — detalle completo en `docs/fase-<n>-<tema>.md`)
+
+***FASE X** (fecha) — resumen de 2-5 líneas por fase cerrada: qué se hizo, qué se verificó, bugs
+reales encontrados, y enlace a la bitácora de detalle. Da contexto histórico y referencia cada
+sección sin releer todo.*

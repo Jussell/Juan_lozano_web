@@ -2,8 +2,8 @@
 :root{
     /*--background: #151515;*/
     --background: #ffffff;
-    /*--dark-gray: #242424;*/
-    --dark-gray: #f5f5f5;
+    --dark-gray: #242424;
+    /*--dark-gray: #f5f5f5;*/
     --accent: #ffdb8d;
     /*--text1: #fff;*/
     /*--text2: #d9d9d9;*/
@@ -60,11 +60,11 @@ h1, h2, h3 {
     margin-inline: 0;
 }
 .header__xl {
-font-size: 2.25rem;
-font-size: clamp(2.25rem, 0.62rem + 6.9vw, 5.5rem);
-letter-spacing: -0.028em;
-margin-block: 0;
-margin-inline: 0;
+    font-size: 2.25rem;
+    font-size: clamp(2.25rem, 0.62rem + 6.9vw, 5.5rem);
+    letter-spacing: -0.028em;
+    margin-block: 0;
+    margin-inline: 0;
 }
 .header__l {
     font-size: 2.25rem;
@@ -180,7 +180,7 @@ a.underline:hover {
         position: relative;
         top: 0;
         left: 50%;
-        translate: -50%;        
+        transform: translateX(-15%);
         z-index: -5;
     }
     .hero__text {
@@ -615,4 +615,13 @@ footer{
     .contact__control{
             
     } 
+}
+
+/* Dark mode */
+.dark-mode {
+    --background: #151515;
+    --dark-gray: #242424;
+    --accent: #ffdb8d;
+    --text1: #fff;
+    --text2: #d9d9d9;
 }
