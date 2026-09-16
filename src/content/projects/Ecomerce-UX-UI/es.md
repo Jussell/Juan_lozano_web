@@ -3,12 +3,12 @@ slug: Ecomerce-UX-UI
 locale: es
 title: "Malva: experiencia de compra"
 shortTitle: E-commerce
-summary: "Mejoramiento de experiencias e-commerce mediante investigación y prototipado"
+summary: Mejoramiento de experiencias e-commerce mediante investigación y prototipado
 role: Product Designer
 duration: 2 meses
 status: published
 featured: true
-cover: images/Malva.webp
+cover: images/malva_cover.png
 tags: [Investigación, UI, Workshops, UX]
 tools: [Figma, Miro, Clarity]
 nextSlug: payment-app
@@ -17,63 +17,64 @@ order: 1
 
 ## Contexto
 
-MALVA es una tienda departamental con una curaduría que equilibra las tendencias y la exclusividad de marcas de moda internacionales y locales. Malva se posiciona así como una tienda con una propuesta de valor orientada a la atención al detalle para el cliente exigente que busca ropa única y exclusiva. Para ello, la web debe comunicar estos valores y facilitar la experiencia de compra.
+MALVA es una tienda departamental con una curaduría que equilibra las tendencias y la exclusividad de marcas de moda internacionales y locales. Malva se posiciona así como una tienda con una propuesta de valor orientada a la atención al detalle para el cliente exigente que busca ropa única y exclusiva. Para ello, la web debía comunicar estos valores, facilitar la experiencia de compra y no sentirse como una tienda genérica más, sino como un canal premium.
 
 ### Necesidades de los stakeholders
 
-Los stakeholders requerían que el sitio pudiera contar una experiencia unificada para más de 150 marcas de moda internacionales y locales, con sus diferencias y particularidades, de modo que el usuario pudiera encontrar lo que busca de manera más sencilla y la marca pudiera comunicar sus valores y su propuesta de valor.
+Los stakeholders requerían que el sitio pudiera ofrecer una experiencia unificada para más de 150 marcas de moda internacionales y locales, manteniendo sus diferencias y particularidades. El reto principal era traducir la experiencia física personalizada de MALVA al entorno digital, de modo que el usuario pudiera encontrar lo que buscaba de manera más sencilla, al tiempo que la marca lograba comunicar sus valores y propuesta de valor de forma clara.
 
 ## Investigación
 
 ### Entendiendo a usuarios internos y externos
 
-El proceso de entender a los usuarios empezó con una visita a la tienda de Bogotá para explorar cómo era la experiencia de compra, contada por los mismos asesores y el gerente de tienda. Con el equipo de UX se logró identificar los siguientes *insights*:
+El proceso de descubrimiento comenzó con una visita de campo a la tienda física en Bogotá para explorar cómo era la experiencia de compra real, evaluada directamente desde la perspectiva de los asesores comerciales y la gerencia de tienda. Junto con el equipo de UX, se logró identificar los siguientes *insights* clave:
 
-1. Los usuarios de Malva prefieren comprar los productos en tienda física por tener una mejor experiencia de compra.
-2. Las tiendas acomodan su curaduría según el contexto del punto de venta, por lo que siempre están acordes a su público local.
-3. Los usuarios de Malva se dividían en dos tipos: el A (80%), de perfil aspiracional, y el B (20%), de perfil exclusivo; siendo el primero el que busca la tendencia y el segundo la experiencia de lo exclusivo, tanto en atención como en producto.
+1. **La barrera del canal digital:** Los usuarios de Malva preferían comprar en tienda física debido a que la experiencia de atención, el servicio personalizado y la tangibilidad del producto eran muy superiores a lo que ofrecía el sitio web actual.
+2. **Curaduría contextualizada:** Las tiendas físicas adaptaban su oferta y vitrinismo según el contexto de la zona, logrando una conexión muy fuerte con el público local.
+3. **Segmentación de comportamiento:** Los usuarios de Malva se dividían en dos arquetipos bien marcados que el e-commerce no estaba atendiendo de forma diferenciada:
+   * **Perfil A (80% - Aspiracional):** Buscan tendencias y novedades, pero experimentan fricción y dudas sobre el ajuste de las prendas (tallaje) y la calidad sin poder verlas.
+   * **Perfil B (20% - Exclusivo):** Priorizan el servicio *VIP*, la rareza del producto y la atención altamente personalizada que no encontraban en la web.
 
 ## Proceso
 
 ### Ideación
 
-Teniendo claros los *insights*, se pudieron establecer los *Jobs to be Done* de esta página (los cuales quedaron bajo cláusula de confidencialidad para no revelar información estratégica). Sin embargo, aún quedaba pendiente definir cuál era el *look and feel* correcto para la página, clave para transmitir la experiencia adecuada.
+Teniendo claros los *insights*, se establecieron los *Jobs to be Done* estratégicos del producto (los cuales quedaron bajo cláusula de confidencialidad para proteger la información de negocio). El paso a seguir era definir el *look and feel* correcto para que la página transmitiera el prestigio de la tienda física.
 
-Se realizó un *workshop* con los *stakeholders* para acercarse al concepto de diseño de Malva y se tomó como herramienta un *benchmarking* visual de páginas que tuvieran el *look and feel* deseado, para comprender qué elementos gráficos y de composición ayudaban a transmitir dicha experiencia.
+Se realizó un *workshop* con los stakeholders para alinear la dirección visual de Malva. Mediante un *benchmarking* visual de sitios e-commerce referentes del sector lujo, se identificaron los elementos gráficos y compositivos necesarios para comunicar una experiencia premium.
 
-### Estructuración
+### Estructuración y Solución
 
-Los requerimientos se dividieron en 3 áreas que facilitarían la identificación de necesidades durante el diseño final del *user journey*.
+Para conectar directamente los hallazgos de la investigación con el diseño final del *user journey*, los requerimientos se dividieron en tres áreas que respondían a la segmentación de los usuarios:
 
-**Funcionalidades:**
-Descripciones detalladas de producto y visualización en modelos. Servicios exclusivos como envío el mismo día en Bogotá y guía de tallas dinámica. Experiencia personalizada con *auto-login* y recomendaciones.
+**Funcionalidades (Enfoque en el Perfil Aspiracional):**
+Para reducir la incertidumbre que frenaba la conversión de este 80%, se integraron descripciones sumamente detalladas, fotografías de calidad en modelos y una **guía de tallas dinámica**. 
 
-**Usabilidad:**
-Perfiles personalizados y compra asistida. Categorías por ocasión y transparencia en todo momento del flujo de compra.
+**Usabilidad y Servicios (Enfoque en el Perfil Exclusivo):**
+Para el 20% que busca la experiencia *VIP* de la tienda física, se diseñaron perfiles con *auto-login*, flujos de **compra asistida**, opciones de envío el mismo día en Bogotá, preventas exclusivas, sistema de fidelización por puntos y transparencia absoluta durante el *checkout*.
 
-**Servicios:**
-Fidelización, preventas exclusivas, puntos y regalos. *Workshops* y eventos exclusivos. Contenido aspiracional que refuerza la identidad *premium*.
+Además, la categorización de productos se organizó "por ocasión", sumado a contenido editorial que reforzaba la identidad de marca, intentando emular la curaduría local de las tiendas físicas.
 
 ### Validación de la propuesta
 
-Se realizó una prueba de usabilidad con 8 personas, ofreciendo un incentivo de compra como recompensa, para poder validar los siguientes puntos:
+Con las soluciones prototipadas, se realizó una prueba de usabilidad con 8 personas (compensadas con un incentivo de compra). Las variables medidas buscaron validar específicamente los problemas detectados en la investigación:
 
-1. Cantidad de preguntas realizadas sobre el producto.
-2. Validación de talla.
-3. Percepción de la calidad de atención a través de los servicios percibidos.
+1. **Cantidad de preguntas realizadas sobre el producto:** Para medir si las nuevas descripciones y el contenido resolvían las dudas del perfil aspiracional antes de llegar al *checkout*.
+2. **Validación de talla:** Para comprobar si la nueva guía de tallas dinámica reducía la fricción y el miedo a devoluciones.
+3. **Percepción de la calidad de atención:** Para verificar si funcionalidades como la compra asistida y los beneficios exclusivos lograban trasladar el sentimiento *VIP* de la tienda física a la web.
 
 ## Resultado
 
-El trabajo de creación del producto digital de Malva tuvo 2 entregables principales:
+El trabajo de creación del producto digital de Malva tuvo dos entregables principales orientados a la implementación:
 
-1. Un kit de UI de tipo atómico para *e-commerce*, aplicado al *journey* de compra en la tienda web y adaptado al entorno de desarrollo de temas de Shopify, incorporando los aprendizajes de las pruebas de usabilidad.
+1. **Un kit de UI de tipo atómico para e-commerce**, aplicado a los flujos del *journey* de compra. Este diseño fue adaptado específicamente a las restricciones técnicas del entorno de desarrollo de temas de **Shopify** e incorporó todos los ajustes derivados de las pruebas de usabilidad.
 
 Átomos:
 ![imagen](/images/malva_subatomic_1.webp)
 ![imagen](/images/malva_subatomic_2.webp)
 
-2. Recomendaciones de implementación de la experiencia de compra para el KAM *online* y el equipo de marketing.
+2. **Recomendaciones estratégicas de implementación**, entregadas al Key Account Manager (KAM) *online* y al equipo de marketing. Esto aseguró que la carga de catálogo, el manejo de imágenes y las campañas mantuvieran el estándar de curaduría visual y operativa definido durante la investigación.
 
 ## Aprendizajes
 
-Diseñar una experiencia de compra sin haber identificado los fundamentos del producto y las necesidades de los usuarios da como resultado una experiencia que no logra conectar con la audiencia.
+Diseñar una experiencia de compra en e-commerce sin primero mapear los fundamentos del producto y comprender las fricciones reales de los usuarios (como el miedo al tallaje o la falta de trato personalizado) da como resultado una interfaz genérica que no logra conectar con la audiencia ni resolver sus necesidades reales de negocio.

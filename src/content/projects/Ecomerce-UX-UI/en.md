@@ -8,7 +8,7 @@ role: Product Designer
 duration: 2 months
 status: published
 featured: true
-cover: images/Malva.webp
+cover: images/malva_cover.png
 tags: [Research, UI, Workshops, UX]
 tools: [Figma, Miro, Clarity]
 nextSlug: payment-app
@@ -17,63 +17,64 @@ order: 1
 
 ## Context
 
-MALVA is a department store with a curated selection that balances current trends with the exclusivity of local and international fashion brands. Malva positions itself with a value proposition centered on attention to detail for discerning customers seeking unique and exclusive apparel. To achieve this, the website needed to communicate these core values while providing a seamless shopping experience.
+MALVA is a department store with a curated selection that balances current trends with the exclusivity of local and international fashion brands. Malva positions itself with a value proposition centered on attention to detail for discerning customers seeking unique and exclusive apparel. To achieve this, the website needed to communicate these core values, facilitate the shopping experience, and avoid feeling like a generic store, positioning itself instead as a premium channel.
 
 ### Stakeholder Needs
 
-Stakeholders needed the website to convey a unified experience across more than 150 local and international fashion brands—each with its own nuances and distinctive traits. The goal was to make it easier for users to find what they are looking for while allowing the brand to effectively communicate its core value proposition.
+Stakeholders required the site to offer a unified experience for over 150 international and local fashion brands, while maintaining their distinct differences and particularities. The main challenge was to translate MALVA's personalized physical experience into the digital environment, so users could find what they were looking for more easily, while the brand effectively communicated its values and clear value proposition.
 
 ## Research
 
 ### Understanding Internal and External Users
 
-The discovery phase began with an field visit to the Bogotá store to observe and evaluate the end-to-end shopping journey directly from sales advisors and the store manager. In collaboration with the UX team, the following key insights were identified:
+The discovery process began with a field visit to the Bogotá store to explore the real shopping experience, evaluated directly from the perspective of sales advisors and the store manager. Together with the UX team, we identified the following key insights:
 
-1. Malva customers preferred purchasing in physical stores due to the superior hands-on shopping experience.
-2. Store inventory and curation are tailored to the specific local market context of each physical branch.
-3. Malva’s customer base split into two distinct segments: Type A (80%)—aspirational shoppers seeking trends—and Type B (20%)—exclusive shoppers prioritizing high-touch service and product rarity.
+1. **The digital channel barrier:** Malva users preferred to buy in the physical store because the customer service, personalized attention, and product tangibility were far superior to what the current website offered.
+2. **Contextualized curation:** Physical stores adapted their offering and visual merchandising based on the local context, achieving a very strong connection with the local audience.
+3. **Behavioral segmentation:** Malva users were divided into two distinct archetypes that the e-commerce platform was not addressing differently:
+   * **Profile A (80% - Aspirational):** Seek trends and novelties, but experience friction and doubts regarding garment fit (sizing) and quality without being able to see them.
+   * **Profile B (20% - Exclusive):** Prioritize VIP service, product rarity, and highly personalized attention that they could not find on the website.
 
 ## Process
 
 ### Ideation
 
-With clear insights established, we defined the core Jobs to be Done for the platform (kept under NDA to protect proprietary stakeholder strategy). The primary challenge remained determining the right look and feel to properly reflect the brand experience online.
+With clear insights, we established the strategic Jobs to be Done for the product (which were kept under a non-disclosure agreement to protect business strategy). The next step was to define the correct look and feel so the website would convey the physical store's prestige.
 
-We hosted a collaborative workshop with stakeholders to align on Malva’s visual direction. Using a visual benchmarking analysis of reference e-commerce sites, we identified specific graphic and compositional elements that effectively conveyed the desired high-end brand experience.
+We conducted a workshop with stakeholders to align Malva's visual direction. Through a visual benchmarking of luxury e-commerce sites, we identified the graphic and compositional elements needed to communicate a premium experience.
 
-### Structuring
+### Structuring and Solution
 
-Requirements were categorized into 3 core areas to streamline planning throughout the final user journey design:
+To directly connect research findings with the final user journey design, requirements were divided into three areas responding to user segmentation:
 
-**Functionalities:**
-Detailed product specifications and model imagery. Premium services such as same-day delivery in Bogotá and dynamic size guides. Personalized experiences featuring auto-login and tailored recommendations.
+**Functionalities (Aspirational Profile Focus):**
+To reduce the uncertainty holding back the conversion of this 80%, we integrated highly detailed descriptions, high-quality model photography, and a **dynamic size guide**.
 
-**Usability:**
-Personalized user profiles and assisted purchasing flow. Occasion-based taxonomy and full transparency across all stages of the checkout funnel.
+**Usability and Services (Exclusive Profile Focus):**
+For the 20% seeking the physical store's VIP experience, we designed user profiles with auto-login, **assisted shopping** flows, same-day delivery options in Bogotá, exclusive pre-sales, a points-based loyalty system, and complete transparency during checkout.
 
-**Services:**
-Loyalty programs, exclusive pre-sales, rewards points, and gifts. Exclusive workshops and events. Aspirational content designed to reinforce premium brand identity.
+Additionally, product categorization was organized "by occasion," alongside editorial content that reinforced brand identity, aiming to emulate the local curation of physical stores.
 
 ### Proposal Validation
 
-We conducted usability testing with 8 participants, incentivized with shopping vouchers, to evaluate three primary vectors:
+With the prototyped solutions, we conducted usability testing with 8 participants (compensated with a shopping incentive). The measured variables sought to specifically validate the problems detected during research:
 
-1. Volume and nature of product inquiries raised during the flow.
-2. Accuracy and clarity of size selection/validation.
-3. Perceived quality of customer service based on integrated service touchpoints.
+1. **Volume of product-related questions:** To measure whether the new descriptions and content resolved the aspirational profile's doubts before reaching checkout.
+2. **Size validation:** To verify if the new dynamic size guide reduced friction and the fear of returns.
+3. **Perception of customer service quality:** To verify if features like assisted shopping and exclusive benefits successfully translated the physical store's VIP feeling to the web.
 
 ## Results
 
-The strategic design effort for Malva Online produced 2 primary deliverables:
+The digital product creation effort for Malva yielded two main deliverables geared towards implementation:
 
-1. An atomic UI design kit tailored for e-commerce, applied to the web purchase journey and aligned with Shopify theme development constraints, integrating all learnings from usability testing.
+1. **An atomic e-commerce UI kit**, applied to the purchase journey flows. This design was specifically adapted to the technical constraints of **Shopify** theme development and incorporated all refinements from usability testing.
 
 Atoms:
 ![image](/images/malva_subatomic_1.webp)
 ![image](/images/malva_subatomic_2.webp)
 
-2. Shopping experience implementation guidelines for the online Key Account Manager (KAM) and marketing teams.
+2. **Strategic implementation recommendations**, delivered to the online Key Account Manager (KAM) and the marketing team. This ensured that catalog uploads, image handling, and campaigns maintained the visual and operational curation standards defined during research.
 
 ## Key Learnings
 
-Designing an e-commerce experience without first establishing product fundamentals and deep user understanding results in a disconnect that fails to engage the target audience.
+Designing an e-commerce shopping experience without first mapping product fundamentals and understanding real user frictions (such as sizing anxiety or the lack of personalized service) results in a generic interface that fails to connect with the audience or solve their actual business needs.
