@@ -22,6 +22,7 @@ const projects = defineCollection({
     tools: z.array(z.string()),
     nextSlug: z.string().optional(),
     previousSlug: z.string().optional(),
+    order: z.number().optional(),
     draft: z.boolean().optional().default(false)
   })
 });
