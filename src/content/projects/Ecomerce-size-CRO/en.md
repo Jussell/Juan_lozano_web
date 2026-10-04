@@ -8,7 +8,7 @@ role: UX/UI Designer, Product Designer
 duration: 3 months
 status: published
 featured: true
-cover: assets/images/crocs-sizes-cover.png
+cover: images/crocs-sizes-cover.png
 tags: [Research, UI, UX research, CRO]
 tools: [Figma, Microsoft Clarity, Google Analytics]
 nextSlug: payment-app

@@ -8,7 +8,7 @@ role: UX/UI Designer, Product Designer
 duration: 3 meses
 status: published
 featured: true
-cover: assets/images/crocs-sizes-cover.png
+cover: images/crocs-sizes-cover.png
 tags: [Investigación, UI, UX research, CRO]
 tools: [Figma, Microsoft Clarity, Google Analytics]
 nextSlug: payment-app
@@ -72,4 +72,4 @@ El cambio al sistema de tallas EUR (implementado en febrero) fue un éxito medib
 
 ## Aprendizajes
 
-El estándar global de tallas que se muestra en otros mercados y funciona debe tropicalizarse a las necesidades del mercado objetivo, ya que variaciones mínimas de tamaño pueden causar una gran diferencia en la percepción del usuario y afectar significativamente la tasa de conversión y devoluciones de producto, afectando el CRO.
+El estándar global de tallas que se muestra en otros mercados y funciona debe tropicalizarse a las necesidades del mercado objetivo, ya que variaciones mínimas de tamaño pueden causar una gran diferencia en la percepción del usuario y afectar significativamente la tasa de conversión y devoluciones de producto, afectando el CRO.
