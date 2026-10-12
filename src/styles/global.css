@@ -72,9 +72,72 @@
 .form-status.error {
   color: #721c24;
 }
+.case-toc {
+  position: sticky;
+  top: 28px;
+  display: grid;
+  gap: 12px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+.case-toc .eyebrow { margin: 0 0 4px; }
+.case-toc a {
+  width: fit-content;
+  color: var(--muted);
+  font-size: .88rem;
+  text-decoration: none;
+}
+.case-toc a:hover,
+.case-toc a:focus-visible { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+.prose-cro { max-width: 760px; }
+.prose-cro h2 {
+  padding-top: 28px;
+  margin: 0 0 24px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 24px;
+}
+.prose-cro h2:first-child { padding-top: 0; border-top: 0; }
+.prose-cro h3 { margin: 42px 0 14px; scroll-margin-top: 24px; }
+.prose-cro > ol {
+  display: grid;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  counter-reset: case-item;
+}
+.prose-cro > ol > li {
+  position: relative;
+  padding: 24px 26px 8px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.48);
+  counter-increment: case-item;
+}
+.prose-cro > ol > li::before {
+  content: counter(case-item, decimal-leading-zero);
+  display: block;
+  margin-bottom: 14px;
+  color: #8b6a17;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+.prose-cro > ol > li > p:first-child { font-weight: 700; }
+.prose-cro ul { padding-left: 22px; }
+.prose-cro li li { padding-left: 3px; }
+.prose-cro img,
+.prose-cro video,
+.prose-cro iframe { max-width: 100%; }
+.prose-cro > p > img,
+.prose-cro > ol img { margin: 24px auto; border: 1px solid var(--line); }
+.prose-cro video { display: block; margin: 24px 0; }
+.prose-cro iframe { display: block; }
+.prose-cro > p:has(iframe) { margin: 30px 0; }
 @media (max-width: 700px) {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .case-toc { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+  .case-toc .eyebrow { grid-column: 1 / -1; }
+  .prose-cro > ol > li { padding: 20px 18px 4px; }
 }
