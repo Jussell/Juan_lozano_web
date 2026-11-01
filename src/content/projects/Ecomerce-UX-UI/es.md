@@ -12,12 +12,12 @@ cover: images/malva_cover.png
 tags: [Investigación, UI, Workshops, UX]
 tools: [Figma, Miro, Clarity]
 nextSlug: payment-app
-order: 1
+order: 2
 ---
 
 ## Contexto
 
-MALVA es una tienda departamental con una curaduría que equilibra las tendencias y la exclusividad de marcas de moda internacionales y locales. Malva se posiciona así como una tienda con una propuesta de valor orientada a la atención al detalle para el cliente exigente que busca ropa única y exclusiva. Para ello, la web debía comunicar estos valores, facilitar la experiencia de compra y no sentirse como una tienda genérica más, sino como un canal premium.
+MALVA es una tienda departamental con una curaduría de moda que s core de negocio es ser una marca que trae y vende productos unicos y tambien de lujo y siempre trata de equilibrar las tendencias y la exclusividad de marcas de moda internacionales y locales. Malva se posiciona así como una tienda con una propuesta de valor orientada a la atención al detalle para el cliente exigente que busca ropa única y exclusiva. Para ello, la el diseño de la web debe comunicar estos valores, facilitar la experiencia de compra y no sentirse como una tienda genérica de venta de lujo más, sino como un canal de experiencia premium.
 
 ### Necesidades de los stakeholders
 
@@ -39,7 +39,7 @@ El proceso de descubrimiento comenzó con una visita de campo a la tienda físic
 
 ### Ideación
 
-Teniendo claros los *insights*, se establecieron los *Jobs to be Done* estratégicos del producto (los cuales quedaron bajo cláusula de confidencialidad para proteger la información de negocio). El paso a seguir era definir el *look and feel* correcto para que la página transmitiera el prestigio de la tienda física.
+Teniendo claros los *insights*, se establecieron los *Jobs to be Done* estratégicos del producto (los cuales estan bajo cláusula de confidencialidad para proteger la información de negocio). El paso a seguir era definir el *look and feel* correcto para que la página transmitiera el prestigio de la tienda física.
 
 Se realizó un *workshop* con los stakeholders para alinear la dirección visual de Malva. Mediante un *benchmarking* visual de sitios e-commerce referentes del sector lujo, se identificaron los elementos gráficos y compositivos necesarios para comunicar una experiencia premium.
 
@@ -59,9 +59,10 @@ Además, la categorización de productos se organizó "por ocasión", sumado a c
 
 Con las soluciones prototipadas, se realizó una prueba de usabilidad con 8 personas (compensadas con un incentivo de compra). Las variables medidas buscaron validar específicamente los problemas detectados en la investigación:
 
-1. **Cantidad de preguntas realizadas sobre el producto:** Para medir si las nuevas descripciones y el contenido resolvían las dudas del perfil aspiracional antes de llegar al *checkout*.
-2. **Validación de talla:** Para comprobar si la nueva guía de tallas dinámica reducía la fricción y el miedo a devoluciones.
-3. **Percepción de la calidad de atención:** Para verificar si funcionalidades como la compra asistida y los beneficios exclusivos lograban trasladar el sentimiento *VIP* de la tienda física a la web.
+1. **Percepción de calidad UI en todas las marcas:** Percepción sobre la experiencia de no percibir detalles que impidieran percibir la Ui
+2. **Cantidad de preguntas realizadas sobre el producto:** Para medir si las nuevas descripciones y el contenido resolvían las dudas del perfil aspiracional antes de llegar al *checkout*.
+3. **Validación de talla:** Para comprobar si la nueva guía de tallas dinámica reducía la fricción y el miedo a devoluciones.
+4. **Percepción de la calidad de atención:** Para verificar si funcionalidades como la compra asistida y los beneficios exclusivos lograban trasladar el sentimiento *VIP* de la tienda física a la web.
 
 ## Resultado
 
