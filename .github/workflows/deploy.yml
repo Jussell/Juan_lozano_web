@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Remove server API routes (static host cannot run them)
+        run: rm -rf src/pages/api
+
       - name: Build with Astro (static output for GitHub Pages)
         run: npm run build
         env:

@@ -2,9 +2,10 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { site } from '../../lib/site';
 
-// When building for GitHub Pages (static backup), we must prerender this route to avoid build errors,
-// even though the contact form submission won't work on the static host.
-export const prerender = process.env.GITHUB_PAGES === 'true';
+// Must be a literal `false`: Astro reads this value statically, and any expression
+// (e.g. process.env.X) is ignored, which prerenders the route and creates no serverless function.
+// The GitHub Pages workflow deletes src/pages/api before building because a static host cannot run it.
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
