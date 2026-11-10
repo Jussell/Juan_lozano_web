@@ -7,7 +7,7 @@ summary: Design and launch of a credit platform for purchases, with experiences 
 role: UX/UI Lead, Project Manager, and Product Owner
 duration: August 2022 – May 2024
 status: published
-featured: false
+featured: true
 cover: images/kreditime/kreditime_hero.png
 tags: [Fintech, UX/UI, Design Thinking, Product Management]
 tools: [Figma]
