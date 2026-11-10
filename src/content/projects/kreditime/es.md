@@ -8,7 +8,7 @@ role: Líder de UX/UI, Project Manager y Product Owner
 duration: Agosto 2022 – mayo 2024
 status: published
 featured: false
-cover: images/P-Mul-ecomux-proj.png
+cover: images/kreditime/kreditime_hero.png
 tags: [Fintech, UX/UI, Design Thinking, Product Management]
 tools: [Figma, miro]
 order: 3
@@ -16,56 +16,58 @@ order: 3
 
 ## Contexto
 
-Kreditime es una plataforma financiera que ofrece crédito para compras, El producto buscaba habilitar un modelo de financiación personalizable para operar tanto en canales digitales como en tiendas físicas todo esto diseñado para facilitar la operacion de los ecomerce que opera la empresa y que fortaleceria el ecosistema de negocio.
+Kreditime fue una plataforma financiera que ofrecía crédito para compras. El producto buscaba habilitar un modelo de financiación personalizable para operar tanto en canales digitales como en tiendas físicas. También estaba diseñado para facilitar la operación de los e-commerce de la empresa y fortalecer su ecosistema de negocio. La plataforma se discontinuó en 2024.
 
 ## Rol
 
-Lideré el ciclo de gestión del proyecto de kreditime como Diseñador de producto, durante mi gestión definí el alcance de las funcionalidades asegurando su alineación con los objetivos de negocio, gestioné la relación y presentación de avances con stakeholders, y ejecuté la investigación UX, diseño de UI y pruebas de usabilidad para mejorar la experiencia de los usuarios.
+Lideré la gestión del proyecto de Kreditime como diseñador de producto. Durante mi gestión, definí el alcance de las funcionalidades y aseguré su alineación con los objetivos de negocio. También gestioné la relación con las partes interesadas y la presentación de avances, y realicé la investigación UX, el diseño de UI y las pruebas de usabilidad para mejorar la experiencia de las personas usuarias.
 
 ## Reto
 
-El reto principal consistió en rescatar un proyecto estancado tras 18 meses sin entregables e impulsar su lanzamiento en tiempo récord. Junto al equipo de desarrollo logramos a pesar de tener enfrenté a un alcance difuso y a un repentino recorte presupuestal drástico. Mi principal contibución fue redefinir el entregable a un MVP enfocado a e-commerce, logrando priorizar, diseñar y coordinar la salida a producción de un producto operativo en menos de seis meses junto a un equipo de desarrollo completamente nuevo que fue el deadline para empezar operación.
+El reto principal consistió en reactivar un proyecto que llevaba 18 meses sin entregables e impulsar su lanzamiento en tiempo récord. Junto con el equipo de desarrollo, logramos crear un MVP funcional para clientes en el sitio web de un e-commerce en menos de seis meses, a pesar de un recorte presupuestario inesperado.
 
 
 ## Investigación
 
-La investigación y delimitación del proyecto se usaron métodos cualitativos como entrevistas a vendedores en las tiendas y cuantitativos como encuestas en los e commerce de la empresa para orientar que funcionalidades y que necesidades debian darse como prioridad ya que con el plazo tan corto se tenian que enfocarse los recursos hacia estos puntos que garantizarian que la plataforma fuera usable y deseable para los clientes.
+Durante la investigación, usamos métodos cualitativos, como entrevistas a vendedores en las tiendas, y cuantitativos, como encuestas en los e-commerce de la empresa. El objetivo fue identificar qué funcionalidades y necesidades debían priorizarse. Como el plazo era corto, teníamos que enfocar los recursos en los aspectos que harían que la plataforma fuera útil y atractiva para los clientes.
 
-Durante el desarrollo del alcance se encontro haciendo prubeas de usabilidad de las plataformas existentes de la "competencia" con que la infraestructura mínima para funcionar consistia en el desarrollo de 2 plataformas la primera para el usuario en flujos de onboarding y gestión de crédito, y la segunda una plataforma que permitiera al usaurio interno hacer seguimiento del proceso de administración de originaciones y usuarios.
+En las pruebas de usabilidad de plataformas de la competencia, identificamos que los flujos de incorporación y gestión del crédito eran los que más dudas generaban. La incorporación incluía tanto el flujo de clientes como el de las personas del equipo interno que validaban su identidad. Por ello, definimos que el MVP debía cubrir ambas plataformas en torno a ese proceso.
 
-Resumen:
+Entre las actividades de investigación:
 
-- Probamos aplicaciones proxy (Addi, sistecredito) con seis participantes que se lograron reclutar para identificar fortalezas y debilidades de los flujos de onboarding de usuarios mediante pruebas de usabilidad.
-- Realizamos entrevistas breves sobre las necesidades relacionadas con créditos rápidos a usuarios proxies en tiendas de la empresa, y vendedores.
-- Realizamos actividades de card sorting con empleados de la empresa que tuvieran creditos activos recientemente para identificar la estructura de arquitectura de información que atendiera las necesidades de un usaurio de crédito.
+- Realizamos pruebas de usabilidad con ocho participantes en aplicaciones de referencia (Addi y Sistecrédito) para identificar fortalezas y debilidades en los flujos de incorporación.
+- Entrevistamos brevemente a clientes potenciales y vendedores en tiendas de la empresa sobre sus necesidades relacionadas con créditos rápidos.
+- Hicimos actividades de clasificación de tarjetas (*card sorting*) con empleados de la empresa que habían tenido créditos activos recientemente, para identificar una arquitectura de información que respondiera a las necesidades de las personas usuarias de crédito.
 
 
 ## Proceso y solución
 
-Las pruebas e investigación nos enfocaron con información y datos que debiamos enfocarnos sobre las pantallas iniciales destacaron la importancia de hacer más clara la captura e inspección de documentos de identidad, en particular la cédula de ciudadanía.
-Elaboramos un mapa de empatía y preguntas *How Might We* para organizar motivaciones y temores.
+Lideré el trabajo de diseño en ciclos de investigación, ideación, prototipado, pruebas e iteración. Este proceso nos ayudó a encontrar más rápidamente soluciones para cada sección de las plataformas.
 
+Para el MVP se definieron tres entregables: una página web, un sistema de registro y autoservicio, y un CRM básico para gestionar créditos y pagos. 
 
-la validación de identidad era un momento especialmente sensible, se debía transmitir seguridad tanto a la persona que solicitaba el crédito en canales online como al usuario en tienda en un futuro, ya que esto era el factor clave para que fuera viable el proyecto.
+Definimos la arquitectura de información a partir de lo aprendido en la clasificación de tarjetas, lo que ayudó a que la interfaz fuera más intuitiva.
 
-Organicé el trabajo de diseño en ciclos de investigación, ideación, prototipado, prueba e iteración. Definimos la arquitectura de información y los flujos para usuarios externos e internos, y estructuramos el producto en tres plataformas: sitio web, CRM y autoservicio para clientes y comercios.
+La cuenta de clientes incluía una zona de saldo disponible, una sección para gestionar créditos y otra para editar los datos de contacto.
 
-Para el MVP se definieron tres entregables: una página web, un sistema de registro y autoservicio, y un CRM básico para gestionar créditos y pagos. La arquitectura contempló información pública y de cuenta para clientes; herramientas internas para administración, servicio al cliente y análisis de cartera y riesgo; y funciones para comercios aliados, como solicitudes de crédito, consulta de estados, registro de ventas y reportes.
+Las herramientas internas se organizaron para tres roles: administración, servicio al cliente y análisis de cartera y riesgo. A partir de las entrevistas, identificamos las secciones que necesitaba cada rol, como solicitudes de crédito, consulta de estados, registro de ventas y reportes.
 
-Iteré los módulos de captura e inspección de documentos y estructuré un UI Kit con principios de Atomic Design. El sistema de componentes buscaba hacer más consistente la interfaz, facilitar la reutilización entre módulos y apoyar la continuidad del trabajo con el nuevo equipo de desarrollo.
+Las pruebas y la investigación mostraron que la validación de identidad era un punto sensible y debía transmitir seguridad, claridad y rapidez. Por eso, optimizamos varias veces esa parte del proceso: los diseños intermedios no dejaban claro en qué etapa se encontraba la persona ni qué debía hacer para completar la validación correctamente. La siguiente versión fue la que obtuvo mejores resultados.
 
-En mi rol de Project Manager y Product Owner, incorporé sprints para priorizar entregables y coordinar el trabajo, ayudando a contener solicitudes de cambio que afectaban el avance hacia producción.
+<p class="flow-cta"><a href="/kreditime-demo/">Probar flujo <span aria-hidden="true">→</span></a></p>
+
+Al finalizar el proceso de diseño e iteración, creamos un UI Kit basado en los principios de Atomic Design. El sistema de componentes buscaba dar coherencia a la interfaz, facilitar la reutilización entre módulos y apoyar la continuidad del trabajo con el nuevo equipo de desarrollo. También permitía rediseñar solo los módulos que presentaban problemas.
 
 ## Resultados
 
 - La plataforma registró más de 500 usuarios en sus primeros dos meses de operación.
-- En febrero de 2024, Kreditime alcanzó el 10% de la facturación mensual del e-commerce Kronotime.
+- En febrero de 2024, Kreditime alcanzó el 10% de la facturación mensual del e-commerce Kronotime.com.
 - El servicio se desplegó en 16 tiendas físicas de relojes Invicta en Colombia.
 - El enfoque de Design Thinking y el UI Kit dieron al equipo una base compartida para desarrollar los módulos clave del MVP.
 
 ## Aprendizajes
 
-Definir y priorizar el alcance desde temprano es clave para sostener el ritmo de desarrollo, especialmente cuando el producto depende de varios equipos y canales. Un sistema visual reutilizable ayuda a dar continuidad al trabajo, pero necesita acompañarse de decisiones de producto claras y ciclos regulares de validación.
+Definir y priorizar el alcance desde el inicio es clave para sostener el ritmo de desarrollo, especialmente cuando el producto depende de varios equipos y canales y hay una fecha límite exigente. Un sistema visual reutilizable y fácil de iterar ayuda a dar continuidad al trabajo, pero debe acompañarse de decisiones de producto claras y ciclos regulares de validación.
 
 ## Nota
 

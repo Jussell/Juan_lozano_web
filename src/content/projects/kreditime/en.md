@@ -8,7 +8,7 @@ role: UX/UI Lead, Project Manager, and Product Owner
 duration: August 2022 – May 2024
 status: published
 featured: false
-cover: images/P-Mul-ecomux-proj.png
+cover: images/kreditime/kreditime_hero.png
 tags: [Fintech, UX/UI, Design Thinking, Product Management]
 tools: [Figma]
 order: 3
@@ -45,6 +45,8 @@ I organized the design work into cycles of research, ideation, prototyping, test
 The MVP plan included three deliverables: a website, a registration and self-service system, and a basic CRM for managing customer credit and payments. The architecture covered public and account information for customers; internal tools for administration, customer service, and portfolio and risk analysis; and merchant features such as credit applications, status checks, sales registration, and reporting.
 
 I iterated on document capture and inspection modules and structured a UI Kit using Atomic Design principles. The component system aimed to make the interface more consistent, support reuse across modules, and help the new development team continue the work.
+
+<p class="flow-cta"><a href="/kreditime-demo/">Try the flow <span aria-hidden="true">→</span></a></p>
 
 In my Project Manager and Product Owner role, I introduced sprints to prioritize deliverables and coordinate work, helping contain change requests that affected progress toward production.
 

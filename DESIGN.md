@@ -17,6 +17,8 @@ Editorial premium: generous whitespace, oversized typography, restrained motion 
 
 Noto Sans is self-hosted from `assets/fonts` and loaded in `src/styles/global.css`. Use the existing font files before adding another family.
 
+Exception: the Kreditime mobile onboarding prototype (`src/pages/kreditime-demo.astro`) mirrors the product's Figma file, which uses Montserrat. Montserrat (latin subset, weights 400/500/700/900, `.woff2`) is self-hosted in `assets/fonts` and loaded only by that page. Its images live in `assets/images/kreditime/flow/`.
+
 ## Layout
 
 - The shared `.shell` is capped at `1180px` with 20px horizontal desktop padding and 14px mobile padding.

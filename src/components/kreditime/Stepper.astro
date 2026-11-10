@@ -1,0 +1,58 @@
+---
+/**
+ * Three-step progress header used across the Kreditime onboarding flow.
+ * Mirrors the "container.step" component from the mobile Figma file.
+ */
+interface Props {
+  phase: 'data' | 'identity' | 'sign';
+  label: string;
+  /** 7.x header pills are rounded (4px); 1.x–6.x pills are square. */
+  rounded?: boolean;
+  /** Set when the label is updated from script. */
+  labelId?: string;
+}
+
+const { phase, label, rounded = false, labelId } = Astro.props;
+const base = '/images/kreditime/flow/';
+const icon = {
+  vcard: `${base}icon-person-vcard.svg`,
+  face: `${base}icon-person-bounding-box.svg`,
+  faceOn: `${base}icon-person-bounding-box-active.svg`,
+  clip: `${base}icon-clipboard-check.svg`,
+  clipOn: `${base}s71-icon-clipboard-active.svg`
+};
+const count = { data: '1 / 3', identity: '2 / 3', sign: '3 / 3' }[phase];
+---
+
+<div class:list={['step', { 'step--round': rounded }]}>
+  {phase === 'data' && (
+    <>
+      <div class="step-item is-active">
+        <img src={icon.vcard} alt="" width="24" height="24" />
+        <p class="step-label"><b>{label}</b><span>{count}</span></p>
+      </div>
+      <div class="step-item"><img src={icon.face} alt="" width="24" height="24" /></div>
+      <div class="step-item"><img src={icon.clip} alt="" width="24" height="24" /></div>
+    </>
+  )}
+  {phase === 'identity' && (
+    <>
+      <div class="step-item is-done"><img src={icon.vcard} alt="" width="24" height="24" /></div>
+      <div class="step-item is-active">
+        <img src={icon.faceOn} alt="" width="24" height="24" />
+        <p class="step-label"><b>{label}</b><span>{count}</span></p>
+      </div>
+      <div class="step-item"><img src={icon.clip} alt="" width="24" height="24" /></div>
+    </>
+  )}
+  {phase === 'sign' && (
+    <>
+      <div class="step-item is-done"><img src={icon.vcard} alt="" width="24" height="24" /></div>
+      <div class="step-item is-done"><img src={icon.faceOn} alt="" width="24" height="24" /></div>
+      <div class="step-item is-active">
+        <img src={icon.clipOn} alt="" width="24" height="24" />
+        <p class="step-label"><b id={labelId}>{label}</b><span>{count}</span></p>
+      </div>
+    </>
+  )}
+</div>
