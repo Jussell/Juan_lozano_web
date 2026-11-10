@@ -12,7 +12,7 @@ cover: images/malva_cover.png
 tags: [Research, UI, Workshops, UX]
 tools: [Figma, Miro, Clarity]
 nextSlug: payment-app
-order: 1
+order: 2
 ---
 
 ## Context

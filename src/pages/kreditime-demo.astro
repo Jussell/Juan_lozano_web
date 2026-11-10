@@ -1,0 +1,1012 @@
+---
+/**
+ * Interactive front-end prototype of the Kreditime mobile onboarding flow.
+ * Rebuilt from the Figma file "KREDITIME" (section "Versión mov"): same
+ * screens, copy, spacing and colours; the Figma text is kept as written.
+ */
+import Stepper from '../components/kreditime/Stepper.astro';
+
+const img = '/images/kreditime/flow/';
+const caseStudyUrl = '/es/projects/kreditime/';
+
+type Art = { src: string; w: number; h: number };
+const faceSlides: { link: string; text: string; wide: boolean; art?: Art }[] = [
+  { link: 'Volver a la página inicial', text: 'Coloca el documento dentro del recuadro', wide: false },
+  { link: 'Volver al comercio', text: 'Retira cualquier accesorio que cubra tu rostro.', art: { src: 'guide-hat.png', w: 116, h: 95 }, wide: false },
+  { link: 'Volver al inicio', text: 'Retira tus lentes y gafas de sol.', art: { src: 'guide-glasses.png', w: 141, h: 83 }, wide: false },
+  { link: 'Volver al inicio', text: 'Busca un fondo iluminado y despejado, como una pared, sin contra luz.', art: { src: 'guide-light.png', w: 110, h: 101 }, wide: true }
+];
+
+const docSlides = [
+  { text: 'Coloca el documento dentro del recuadro', framed: { src: 'guide-doc-front.png', w: 119, h: 185 } },
+  { text: 'Toma una foto clara del documento.', art: { src: 'guide-doc-front-ok.png', w: 186.5, h: 100.5 } },
+  { text: 'No muevas tu teléfono o cámara mientras tomas la foto.', art: { src: 'guide-doc-steady.png', w: 127, h: 207 }, blur: { src: 'guide-doc-steady-blur.png', w: 54, h: 78 } },
+  { text: 'Evita que el holograma cubra tu rostro. Si tienes protector plástico, retíralo.', art: { src: 'guide-doc-hologram.png', w: 239, h: 161 } }
+];
+
+const reminders = [
+  { src: 'remind-glasses.png', text: 'Retira tus lentes y gafas de sol.' },
+  { src: 'remind-hat.png', text: 'Retira cualquier accesorio que cubra tu rostro.' },
+  { src: 'remind-light.png', text: 'Busca un fondo iluminado y despejado, como una pared, sin contra luz.' }
+];
+
+const screenNames = [
+  ['welcome', '1.1 Bienvenida'],
+  ['form', '1.2 Datos personales'],
+  ['terms', '1.3 Tratamiento de datos'],
+  ['otp', '2.1 Código OTP'],
+  ['face-guide', '3.1 Guía de rostro'],
+  ['face-capture', '3.5 Captura de rostro'],
+  ['face-fail', '3.5 Validación incorrecta (rostro)'],
+  ['doc-guide', '4.1 Guía de documento'],
+  ['doc-capture', '4.5 Captura de documento'],
+  ['doc-review', '4.6 Revisión de documento'],
+  ['doc-fail', '4.6 Validación incorrecta (documento)'],
+  ['back-guide', '5.1 Guía de reverso'],
+  ['back-capture', '5.5 Captura de reverso'],
+  ['back-review', '5.6 Revisión de reverso'],
+  ['questions', '6.1 Preguntas de historial'],
+  ['signature', '7.1 Firma digital'],
+  ['result', '8.1 Solicitud en estudio'],
+  ['result-denied', '8.2 Solicitud negada']
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kreditime · Flujo de solicitud</title>
+    <meta name="robots" content="noindex" />
+    <style is:global>
+      @font-face{font-family:Montserrat;font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/Montserrat-400.woff2') format('woff2')}
+      @font-face{font-family:Montserrat;font-weight:500;font-style:normal;font-display:swap;src:url('/fonts/Montserrat-500.woff2') format('woff2')}
+      @font-face{font-family:Montserrat;font-weight:700;font-style:normal;font-display:swap;src:url('/fonts/Montserrat-700.woff2') format('woff2')}
+      @font-face{font-family:Montserrat;font-weight:900;font-style:normal;font-display:swap;src:url('/fonts/Montserrat-900.woff2') format('woff2')}
+
+      :root{
+        --bg:#fff;--title:#192d6f;--text:#242424;--neutral:#797979;--surface-variant:#f0e8fe;
+        --title-variant:#8759fc;--outline:#9eacd2;--outline-neutral:#a2a2a2;--danger:#eb445a;
+        --tertiary:#00bedf;--step-border:#4b2aea;--step-text:#04113a;--step-idle:#f6f6f6;
+        --radius-s:8px;--page:#eef0f3
+      }
+      *{box-sizing:border-box}
+      [hidden]{display:none!important}
+      html{-webkit-text-size-adjust:100%}
+      body{margin:0;background:var(--page);color:var(--text);font-family:Montserrat,Arial,sans-serif;font-size:14px;line-height:1.5}
+      button,input,select{font:inherit;color:inherit}
+      img{display:block;max-width:none}
+      p,h1,h2{margin:0}
+      .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+      :focus-visible{outline:2px solid var(--title-variant);outline-offset:2px}
+
+      /* Page chrome (outside the device) */
+      .demo-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:760px;margin:0 auto;padding:14px 16px}
+      .demo-bar p{font-weight:700;color:var(--title)}
+      .demo-close{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border:1px solid var(--title);border-radius:999px;background:#fff;color:var(--title);font-weight:700;font-size:13px;text-decoration:none}
+      .demo-close:hover{background:var(--surface-variant)}
+      .stage{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:24px;padding:0 16px 40px}
+      .sim{width:min(100%,260px);padding:16px;border:1px solid #d9dce3;border-radius:12px;background:#fff;font-size:13px}
+      .sim h2{font-size:14px;color:var(--title);margin-bottom:10px}
+      .sim fieldset{margin:0 0 12px;padding:0;border:0}
+      .sim legend{padding:0;font-weight:700;margin-bottom:4px}
+      .sim label{display:flex;align-items:center;gap:8px;margin:4px 0}
+      .sim select{width:100%;margin-top:4px;padding:6px 8px;border:1px solid var(--outline-neutral);border-radius:6px;background:#fff}
+      .sim .hint{color:var(--neutral);font-size:12px;margin-top:8px}
+
+      /* Device */
+      .phone{position:relative;width:min(100%,375px);height:667px;overflow:hidden;background:var(--bg);border-radius:18px;box-shadow:0 12px 50px #1726512b}
+      .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px 16px;background:var(--bg);overflow:hidden}
+      .screen:focus{outline:none}
+
+      /* Type */
+      .t-title{width:100%;color:var(--title);font-weight:700;font-size:16px;line-height:1.3;text-align:center}
+      .t-sub{width:100%;font-weight:700;font-size:14px;line-height:1.5;text-align:center}
+      .t-body{font-size:14px;line-height:1.5;text-align:center}
+      .t-small{font-size:12px;line-height:1.5}
+      .t-label{width:100%;font-weight:700;font-size:14px;line-height:1.5}
+
+      /* Stepper */
+      .step{display:flex;align-items:stretch;gap:8px;width:100%;flex-shrink:0}
+      .step-item{display:flex;align-items:center;justify-content:center;padding:6px 12px;background:var(--step-idle)}
+      .step-item img{width:24px;height:24px}
+      .step-item.is-done{padding:4px 8px;background:var(--surface-variant);border:.5px solid var(--step-border)}
+      .step-item.is-active{flex:1;min-width:0;justify-content:flex-start;gap:8px;padding:4px 8px;background:var(--surface-variant);border:.5px dashed var(--step-border)}
+      .step-label{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--step-text);text-align:right;white-space:nowrap;line-height:normal}
+      .step-label b{font-weight:700;font-size:12px}
+      .step-label span{font-weight:500;font-size:10px}
+      .step--round .step-item{border-radius:4px;overflow:clip}
+
+      /* Buttons */
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:240px;width:240px;min-height:32px;padding:4px 12px;border:1px solid var(--title);border-radius:var(--radius-s);background:#fff;color:var(--title);font-weight:700;font-size:14px;line-height:1.3;cursor:pointer}
+      .btn:hover{background:#f6f7fb}
+      .btn--wide{width:100%;height:42px}
+      .btn--solid{background:var(--title);color:#fff;border-color:var(--title)}
+      .btn--solid:hover{background:#142458}
+      .btn[disabled]{cursor:not-allowed}
+      .btn img{width:17px;height:17px}
+      .btn-link{display:inline-flex;align-items:center;justify-content:center;min-width:240px;width:100%;min-height:32px;padding:4px 12px;border:0;background:transparent;color:var(--title-variant);font-weight:700;font-size:14px;line-height:1.3;text-decoration:underline;text-decoration-skip-ink:none;cursor:pointer}
+      .nav-slot{display:flex;justify-content:center;align-items:center;width:100%;height:48px}
+
+      /* 1.1 Welcome */
+      .s-welcome{justify-content:center;gap:48px}
+      .s-welcome .logo{width:250px;height:45.105px}
+      .consent{width:100%}
+      .consent__row{display:flex;align-items:center;min-height:32px;padding-right:8px}
+      .consent__box{display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;padding:0;border:0;background:transparent;cursor:pointer}
+      .consent__box img{width:16px;height:16px}
+      .consent__box[aria-checked='false'] img{opacity:.35}
+      .consent__text{flex:1;font-size:12px;line-height:1.5;font-weight:700;text-decoration:underline;text-decoration-skip-ink:none}
+      .consent__text span{font-weight:400;text-decoration:none}
+      .consent__row2{padding:0 8px 0 45px;font-size:12px;line-height:1.5;font-weight:700;text-decoration:underline;text-decoration-skip-ink:none;min-height:24px;display:flex;align-items:center}
+      .welcome{width:100%;text-align:center}
+
+      /* 1.2 Form */
+      .s-form{gap:0}
+      .main{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;justify-content:space-between;overflow:clip}
+      .main__content{display:flex;flex-direction:column;gap:24px;width:100%}
+      .form{display:flex;flex-direction:column;gap:16px;width:100%}
+      .form__group{display:flex;flex-direction:column;gap:4px}
+      .form__fields{display:flex;flex-direction:column;gap:12px}
+      .form__fields--id{gap:16px;padding:9px 0}
+      .field{position:relative;display:flex;align-items:center;gap:8px;width:100%;min-height:32px;padding:4px 12px;border:1px solid var(--neutral);border-radius:var(--radius-s);background:#fff}
+      .field--tall{height:43px}
+      .field:focus-within{border-color:var(--title);box-shadow:0 0 0 1px var(--title)}
+      .field input{flex:1;min-width:0;border:0;padding:0;background:transparent;font-size:14px;line-height:1.3;color:var(--text);outline:none}
+      .field input::placeholder{color:var(--neutral);opacity:1}
+      .field img{width:14px;height:16px}
+      .field__float{position:absolute;left:11px;top:-8px;display:flex;align-items:center;gap:6px;padding:0 6px;background:#fff;color:var(--neutral);font-size:10.5px;line-height:1.3;white-space:nowrap}
+      .field__float img{width:10.5px;height:12px}
+      .field--float input{padding-top:2px}
+      .field__eye{display:grid;place-items:center;width:24px;height:24px;margin-right:-4px;padding:0;border:0;background:transparent;cursor:pointer}
+      .field__eye img{width:16px;height:16px}
+
+      /* 1.3 Terms modal */
+      .s-terms{background:#bfbfbf;justify-content:center;padding:48px 16px}
+      .modal{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;height:628px;padding:24px 16px 48px;border-radius:24px;background:#fff;filter:drop-shadow(0 5px 3.5px #00000024) drop-shadow(0 0 2.5px #00000024)}
+      .modal__head{display:flex;flex-direction:column;gap:8px;width:100%}
+      .modal__badge{padding:11px 0;border-radius:4px;background:var(--surface-variant);color:var(--title-variant);font-weight:700;font-size:12px;line-height:1.5;text-align:center}
+      .modal.is-end .modal__badge{padding:0}
+      .modal__main{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;gap:24px;width:100%}
+      .modal__scroll{display:flex;flex:1;min-height:0;gap:12px;width:100%}
+      .modal__text{flex:1;min-width:0;overflow-y:auto;scrollbar-width:none;color:#454545;font-size:12px;line-height:1.5}
+      .modal__text::-webkit-scrollbar{display:none}
+      .modal__text p{margin:0 0 12px}
+      .modal__text p:last-child{margin-bottom:0}
+      .modal__track{position:relative;width:4px;flex-shrink:0;border-radius:4px;background:#f0f0f0}
+      .modal__thumb{position:absolute;left:0;top:0;width:4px;height:57px;border-radius:5px;background:var(--tertiary)}
+      .btn--ghost{border-color:#192d6f40;color:#192d6f40;background:#fff}
+      .btn--ghost:hover{background:#fff}
+
+      /* 2.x OTP */
+      .s-otp .main__content{gap:16px;height:347.5px}
+      .otp{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+      .otp__contact{font-weight:700;font-size:14px;line-height:1.3;color:var(--neutral);text-align:center}
+      .otp__boxes{display:flex;gap:4px}
+      .otp__box{width:32px;height:45px;padding:8px 4px;border:1px solid var(--outline-neutral);border-radius:8px;background:#fff;text-align:center;font-weight:700;font-size:24px;line-height:normal;color:var(--title)}
+      .otp__box.is-filled{border-color:var(--outline)}
+      .otp.is-error .otp__box{border-color:var(--danger);color:var(--danger)}
+      .otp__help{font-size:12px;line-height:1.5;text-align:center}
+      .otp__help u{font-weight:700;text-decoration-skip-ink:none}
+
+      /* Guides (3.x / 4.x / 5.x) */
+      .g-face{padding:30px 16px;gap:16px}
+      .g-doc{padding:24px 16px;gap:24px}
+      .guide__main{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;width:100%}
+      .g-face .guide__main{gap:4px}
+      .g-doc .guide__main{gap:16px;overflow:clip}
+      .guide__head{display:flex;flex-direction:column;align-items:center;width:100%}
+      .g-face .guide__head{gap:8px}
+      .g-doc .guide__head{gap:16px}
+      .guide__body{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;gap:16px;width:100%}
+      .slide{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;gap:16px;width:100%}
+      .slide__art{position:relative;display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;width:100%}
+      .guide__text{width:255px;height:42px;text-align:center;font-size:14px;line-height:1.5}
+      .guide__text--wide{width:100%}
+      .g-doc .guide__text{width:100%}
+      .dots{display:flex;gap:6.8px;height:17.775px}
+      .dot{display:block;width:13.775px;height:17.775px;padding:0;border:0;background:transparent;color:#aaf2fe;cursor:pointer}
+      .dot svg{display:block}
+      .dot.is-on{color:var(--tertiary)}
+      .guide__foot{display:flex;flex-direction:column;gap:8px;width:100%;flex-shrink:0}
+      .guide__foot .btn-link{min-width:0}
+      .person{position:relative;width:147.75px;height:182.25px;border-radius:18px;overflow:clip}
+      .person img{position:absolute}
+      .person__photo{left:-33.58px;top:0;width:231.207px;height:292.176px;object-fit:cover}
+      .person__ring{left:13.5px;top:6.75px;width:120.75px;height:169.5px}
+      .person__mask{left:0;top:0;width:147.75px;height:182.25px}
+      .person__gif{position:absolute;left:75.38px;top:113px;transform:translate(-50%,-100%);color:#fff;font-weight:900;font-size:14px;line-height:1.5;white-space:nowrap}
+      .framed{display:flex;align-items:center;padding:16px;border:5px solid var(--outline);border-radius:16px}
+      .overlay-blur{position:absolute;left:calc(50% - 63.5px + 37px);top:calc(50% - 103.5px + 65px);width:54px;height:78px;filter:blur(2px);object-fit:cover}
+      .cover{object-fit:cover}
+
+      /* Incorrect validation */
+      .fail__head{display:flex;flex-direction:column;align-items:center;gap:16px;width:304px}
+      .fail__head img{width:72px;height:72px}
+      .fail__head .lead{font-size:16px;line-height:1.5;text-align:center;width:100%}
+      .fail__list{display:flex;flex-direction:column;gap:24px;width:100%;padding:0 8px;margin:0;list-style:none}
+      .fail__list li{display:flex;align-items:center;gap:24px}
+      .fail__list img{width:48px;height:48px;object-fit:contain;flex-shrink:0}
+      .fail__body{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;gap:16px;width:100%}
+
+      /* Cameras */
+      .cam{padding:0;gap:0;justify-content:flex-start}
+      .cam--face{background:#ebeff2;justify-content:center}
+      .cam__preview{position:relative;width:360px;height:623px;overflow:hidden;background:#ccd3d6}
+      .cam__preview .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+      .cam__preview .person-photo{position:absolute;left:-27.79%;top:.15%;width:153.05%;height:132.66%;object-fit:cover}
+      .cam__oval{position:absolute;left:47.5px;top:79px;width:242px;height:288px}
+      .cam--doc{background:#c9b9a3}
+      .cam__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+      .cam__veil{position:absolute;left:0;top:0;width:100%;height:532px;display:flex;align-items:center;justify-content:center;background:#57575780;backdrop-filter:blur(2px)}
+      .cam__frame{width:259px;height:407px;border:12px solid #fff;border-radius:16px}
+      .cam__label{position:absolute;left:16px;top:28px;width:343px;background:#fff;font-weight:700;font-size:14px;line-height:1.5;text-align:center}
+      .cam__doc{position:absolute;left:68px;top:70px;width:239px;height:391px;display:flex;align-items:center;justify-content:center}
+      .cam__doc div{width:391px;height:239px;flex:none;transform:rotate(90deg);border-radius:12px;box-shadow:0 4px 4px #00000040}
+      .cam__doc img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+      .cam__bar{position:absolute;left:0;top:532px;width:100%;height:135px;display:flex;align-items:center;justify-content:center;background:#000}
+      .shutter{position:relative;width:99px;height:99px;padding:0;border:0;background:transparent;cursor:pointer}
+      .shutter .ring{position:absolute;left:0;top:0;width:99px;height:99px}
+      .shutter .inner{position:absolute;left:10px;top:10px;width:79px;height:79px}
+      .shutter:active .inner{transform:scale(.94)}
+
+      /* 6.x Questions */
+      .s-questions .main__content{gap:24px;flex:1;align-items:center}
+      .question{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;flex:1;min-height:0;padding:24px 19px;border:1px solid var(--title-variant);border-radius:16px;background:#d8c7fd1a}
+      .question__title{width:100%;color:var(--title);font-weight:700;font-size:20px;line-height:1.3;text-align:center}
+      .answers{display:flex;flex-direction:column;gap:16px;width:100%;margin:0;padding:0;list-style:none}
+      .answer{display:flex;align-items:center;width:100%;min-height:30px;padding:4px 16px;border:1px solid var(--title);border-radius:8px;background:#fff;color:var(--text);font-size:14px;line-height:1.5;text-align:left;cursor:pointer}
+      .answer:hover{border-color:var(--text)}
+      .answer.is-selected{background:var(--title-variant);border-color:#fff;color:#fff;font-weight:700}
+
+      /* 7.x Signature */
+      .s-sign{gap:16px}
+      .sign__doc{position:relative;flex:1;min-height:0;width:100%;overflow:hidden;padding:0;border:0;background:#fff;cursor:pointer}
+      .sign__doc img{position:absolute}
+      .sign__nav{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding:4px 0}
+      .sign__nav .btn{min-width:240px;width:240px}
+      .btn--solid[disabled]{opacity:.4}
+
+      /* 8.x Results */
+      .s-result{align-items:center;overflow-y:auto;gap:32px;padding:40px 16px}
+      .result__hero{position:relative;width:100%;height:117px;overflow:clip;flex-shrink:0}
+      .result__hero-box{position:relative;height:154px;border-radius:12px;overflow:clip}
+      .result__hero-box img.hero{position:absolute;left:0;top:0;width:137.77%;height:192.86%;object-fit:cover}
+      .result__hero-box img.mark{position:absolute;left:9.15%;top:18.02%;width:35.06%;height:14.08%;object-fit:contain}
+      .s-result{scrollbar-width:none}
+      .s-result::-webkit-scrollbar{display:none}
+      .result__title{width:100%;color:var(--title);font-weight:700;font-size:20px;line-height:1.3;text-align:center}
+      .result__card{display:flex;flex-direction:column;gap:16px;width:100%;padding:8px 12px;border-radius:12px;background:#fff;filter:drop-shadow(0 3px 2.5px #0000001f) drop-shadow(0 0 1.5px #0000001f)}
+      .result__rate{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:32px;border:1px dashed var(--outline);border-radius:12px;background:#fff}
+      .result__rate-top{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+      .result__rate-line{display:flex;align-items:center;gap:8px;color:var(--title);font-size:16px;line-height:1.3}
+      .result__rate-line img{width:24px;height:24px}
+      .btn-primary{display:inline-flex;align-items:center;justify-content:center;width:100%;min-width:240px;min-height:46px;padding:12px;border:0;border-radius:var(--radius-s);background:var(--title);color:#fff;font-weight:700;font-size:16px;line-height:1.3;cursor:pointer}
+      .btn-primary:hover{background:#142458}
+      .btn-text{display:inline-flex;align-items:center;justify-content:center;min-width:240px;min-height:46px;padding:12px;border:0;background:transparent;color:var(--title);font-weight:700;font-size:16px;line-height:1.3;text-decoration:underline;text-decoration-skip-ink:none;cursor:pointer}
+      .result__stack{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+      .s-denied{padding:48px 16px;gap:32px}
+      .s-denied .logo{width:250px;height:45.105px;flex-shrink:0}
+      .s-denied .result__card{flex:1;padding:32px 12px}
+
+      /* 4.6 / 5.x document screens */
+      .review__photo{width:188px;height:334px;object-fit:cover}
+      .crop48{position:relative;width:48px;height:48px;flex-shrink:0;overflow:hidden}
+      .crop48 img{position:absolute}
+      .guide__text--240{width:240px}
+      .rev-frame{position:relative;width:128.35px;height:184.45px;border:4.25px solid var(--outline);border-radius:13.6px}
+      .rev-box{position:absolute;left:8.5px;top:7.55px;width:103.7px;height:160.65px;display:flex;align-items:center;justify-content:center}
+      .rev-phone{position:relative;width:112.889px;height:184px}
+      .rev-phone__doc{position:absolute;left:26.9px;top:28.4px;width:60px;height:94px;display:flex;align-items:center;justify-content:center}
+      .date{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+      .date__label{font-size:14px;line-height:1.5;text-align:center}
+      .date__field{width:240px;min-height:32px}
+      .date__field input{letter-spacing:.2px}
+      .date__field.is-valid{border-color:var(--title)}
+      .date__field.is-valid input{color:var(--title)}
+      .btn--wide.btn--ghost img{opacity:1}
+      .cam__frame--abs{position:absolute}
+
+      @media (max-width:420px){.phone{border-radius:0;box-shadow:none}}
+      @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+    </style>
+  </head>
+  <body>
+    <header class="demo-bar">
+      <p>Kreditime · Prototipo de onboarding móvil</p>
+      <a class="demo-close" href={caseStudyUrl} aria-label="Cerrar demo y volver al caso de estudio">× Cerrar demo</a>
+    </header>
+
+    <div class="stage">
+      <main class="phone" aria-label="Prototipo del flujo de solicitud de crédito Kreditime">
+
+        <!-- 1.1 Welcome -->
+        <section class="screen s-welcome" data-screen="welcome" tabindex="-1" aria-label="Bienvenida">
+          <img class="logo" src={`${img}logo.png`} alt="Kreditime. Tu crédito a la mano" width="250" height="45" />
+          <div class="consent">
+            <div class="consent__row">
+              <button class="consent__box" type="button" role="checkbox" aria-checked="true" aria-label="Autorizo el tratamiento de mis datos personales" id="consent-box">
+                <img src={`${img}checkbox.svg`} alt="" width="16" height="16" />
+              </button>
+              <p class="consent__text">Autorizo el Tratamiento de mis Datos personales<span>.</span></p>
+            </div>
+            <p class="consent__row2">Autorizo consulta en centrales de riesgo</p>
+          </div>
+          <p class="welcome">Bienvenido</p>
+          <div class="nav-slot"><button class="btn" type="button" data-go="form">Continuar</button></div>
+        </section>
+
+        <!-- 1.2 Personal data -->
+        <section class="screen s-form" data-screen="form" tabindex="-1" aria-label="Datos personales" hidden>
+          <div class="main">
+            <div class="main__content">
+              <Stepper phase="data" label="Tus datos" />
+              <div class="form">
+                <h1 class="t-title" style="height:21px">Inicia tu registro ingresando tus datos</h1>
+                <form class="form" id="register-form" autocomplete="off" novalidate>
+                  <div class="form__group">
+                    <p class="t-label">Datos personales</p>
+                    <div class="form__fields form__fields--id">
+                      <label class="field field--tall field--float">
+                        <span class="field__float"><img src={`${img}icon-identification.svg`} alt="" width="11" height="12" />Nro. Cédula de ciudadanía</span>
+                        <input type="text" inputmode="numeric" aria-label="Número de cédula de ciudadanía" />
+                      </label>
+                      <label class="field field--tall"><input type="text" placeholder="Nombres" aria-label="Nombres" /></label>
+                      <label class="field"><input type="text" placeholder="Apellidos" aria-label="Apellidos" /></label>
+                    </div>
+                  </div>
+                  <div class="form__group">
+                    <p class="t-label">Datos de contacto</p>
+                    <div class="form__fields">
+                      <label class="field"><img src={`${img}icon-phone.svg`} alt="" width="14" height="16" /><input type="tel" inputmode="tel" placeholder="Nro. de teléfono celular" aria-label="Número de teléfono celular" /></label>
+                      <label class="field"><img src={`${img}icon-envelope.svg`} alt="" width="14" height="16" /><input type="email" placeholder="Correo electrónico" aria-label="Correo electrónico" /></label>
+                    </div>
+                  </div>
+                  <div class="form__group">
+                    <p class="t-label">Crear contraseña</p>
+                    <div class="form__fields">
+                      <label class="field"><input type="password" placeholder="Nueva contraseña" aria-label="Nueva contraseña" /><button class="field__eye" type="button" data-eye aria-label="Mostrar contraseña"><img src={`${img}icon-eye.svg`} alt="" width="16" height="16" /></button></label>
+                      <label class="field"><input type="password" placeholder="Repetir nueva contraseña" aria-label="Repetir nueva contraseña" /><button class="field__eye" type="button" data-eye aria-label="Mostrar contraseña"><img src={`${img}icon-eye.svg`} alt="" width="16" height="16" /></button></label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="nav-slot"><button class="btn" type="button" data-go="terms">Continuar</button></div>
+          </div>
+        </section>
+
+        <!-- 1.3 / 1.4 Data treatment modal -->
+        <section class="screen s-terms" data-screen="terms" tabindex="-1" aria-label="Tratamiento de datos" hidden>
+          <div class="modal" id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+            <div class="modal__head">
+              <h1 class="t-title" id="terms-title">Tratamiento de datos</h1>
+              <p class="modal__badge">Recorre todo el texto para aceptar y continuar</p>
+            </div>
+            <div class="modal__main">
+              <div class="modal__scroll">
+                <div class="modal__text" id="terms-text" tabindex="0" role="region" aria-label="Texto de autorización">
+                  <p><b>Autoriza el tratamiento de datos</b></p>
+                  <p>Autorizo de manera libre, expresa y voluntaria a NADAV SAS. / KrediTime, para recolectar, recaudar, almacenar, usar, circular, suprimir, procesar, compilar, intercambiar, transferir, transmitir, dar tratamiento, actualizar y disponer de los datos que he suministrado en el formulario de solicitud de crédito que podrán ser incorporados en distintas bases o bancos de datos de la empresa. Los datos personales cuyo tratamiento autorizo, serán conservados por NADAV SAS., de acuerdo a la normativa que obligue a mantener dicha información o hasta que sea solicitada la supresión (de ser posible) de la información por parte del titular, de acuerdo con la Ley Estatutaria 1581 de 2012.</p>
+                  <p><b>Autoriza consulta en centrales de riesgo</b></p>
+                  <p>En virtud de la Ley Estatutaria 1581 del 2012, mediante la cual se dictan las disposiciones generales para la Protección de Datos Personales, y sus decretos reglamentarios, compilados en el Decreto Único Reglamentario 1074 de 2015, Sector Comercio, Industria y Turismo autorizo de forma libre, previa, expresa e inequívoca a NADAV SAS. y/o sus filiales, como Responsable de la recolección, uso, almacenamiento, tratamiento, circulación transferencia, transmisión y disposición final de mis Datos Personales que incluyen datos de identificación, ubicación, información de seguridad social, información profesional, financiera e información sensible como la contenida en el documento de identidad. Teniendo como fines los informados en la Política de Tratamiento de Datos Personales, adicionalmente, los casos previstos por la ley, administrativos, financieros históricos y estadísticos, verificación de requisitos jurídicos, técnicos y/o financieros, cumplimiento de decisiones judiciales y disposiciones administrativas y legales, gestión de clientes, cobros y pagos; para recibir información comercial y publicitaria, invitaciones a eventos, lanzamientos, campañas de promoción de proyectos y servicios, a obtener información sobre bienes y servicios, envío de comunicaciones ya sea mediante correo electrónico, teléfono móvil, correo postal, o cualquier otro medio electrónico o físico.</p>
+                </div>
+                <div class="modal__track" aria-hidden="true"><div class="modal__thumb" id="terms-thumb"></div></div>
+              </div>
+              <button class="btn btn--ghost" type="button" id="terms-accept" data-go="otp" disabled>Aceptar y continuar</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2.x OTP -->
+        <section class="screen s-otp" data-screen="otp" tabindex="-1" aria-label="Validación de correo electrónico" hidden>
+          <Stepper phase="data" label="Datos Personales" />
+          <div class="main">
+            <div class="main__content">
+              <h1 class="t-title">Valida tu correo electrónico</h1>
+              <div class="otp" id="otp">
+                <p class="t-body">Te enviamos un código de seguridad, revisa tu bandeja de correo electrónico o tu celular:</p>
+                <p class="otp__contact">correo@electrónico.com / 3508497785</p>
+                <div class="otp__boxes" role="group" aria-label="Código de seguridad de 6 dígitos">
+                  {Array.from({ length: 6 }, (_, i) => (
+                    <input class="otp__box" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label={`Dígito ${i + 1}`} />
+                  ))}
+                </div>
+                <p class="otp__help">¿No recibiste tu código? Comprueba tu carpeta de correo no deseado o spam, o <u>solicita el reenvío</u>. </p>
+              </div>
+            </div>
+            <div class="nav-slot"><button class="btn" type="button" data-action="otp-next">Continuar</button></div>
+          </div>
+        </section>
+
+        <!-- 3.1–3.4 Face guide -->
+        <section class="screen g-face" data-screen="face-guide" data-guide tabindex="-1" aria-label="Guía de foto de rostro" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="guide__main">
+            <div class="guide__head">
+              <h1 class="t-title">Valida tu identidad</h1>
+              <p class="t-sub">Foto de rostro</p>
+            </div>
+            <div class="guide__body">
+              {faceSlides.map((s, i) => (
+                <div class="slide" data-link={s.link} hidden={i !== 0}>
+                  <div class="slide__art">
+                    {i === 0 ? (
+                      <div class="person">
+                        <img class="person__photo" src={`${img}face-photo.jpg`} alt="" width="231" height="292" />
+                        <img class="person__ring" src={`${img}face-ellipse.svg`} alt="" width="121" height="170" />
+                        <img class="person__mask" src={`${img}face-mask.svg`} alt="" width="148" height="182" />
+                        <span class="person__gif">Gif</span>
+                      </div>
+                    ) : s.art ? (
+                      <img class="cover" src={`${img}${s.art.src}`} alt="" width={s.art.w} height={s.art.h} style={`width:${s.art.w}px;height:${s.art.h}px`} />
+                    ) : null}
+                  </div>
+                  <p class:list={['guide__text', { 'guide__text--wide': s.wide }]}>{s.text}</p>
+                </div>
+              ))}
+              <div class="dots" role="group" aria-label="Consejos">
+                {faceSlides.map((_, i) => (
+                  <button class="dot" type="button" aria-label={`Consejo ${i + 1} de ${faceSlides.length}`}><svg width="13.775" height="17.775" viewBox="0 0 13.775 17.775" aria-hidden="true"><circle cx="6.8875" cy="8.8875" r="4.8875" fill="currentColor"/></svg></button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div class="guide__foot">
+            <button class="btn btn--wide" type="button" data-go="face-capture">Comenzar validación <img src={`${img}icon-camera.svg`} alt="" width="17" height="17" /></button>
+            <button class="btn-link" type="button" data-guide-link data-go="welcome">Volver a la página inicial</button>
+          </div>
+        </section>
+
+        <!-- 3.5 Face capture -->
+        <section class="screen cam cam--face" data-screen="face-capture" tabindex="-1" aria-label="Captura de rostro" hidden>
+          <div class="cam__preview">
+            <img class="bg" src={`${img}camera-face-bg.jpg`} alt="" width="360" height="623" />
+            <img class="person-photo" src={`${img}face-photo.jpg`} alt="Vista de la cámara con un rostro centrado en el óvalo" width="480" height="607" />
+            <img class="cam__oval" src={`${img}camera-face-oval.svg`} alt="" width="242" height="288" />
+          </div>
+          <p class="sr-only" role="status" id="face-status">Validando tu rostro…</p>
+        </section>
+
+        <!-- 3.5 Face: incorrect validation -->
+        <section class="screen g-face" data-screen="face-fail" tabindex="-1" aria-label="Validación de rostro incorrecta" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="fail__body">
+            <div class="fail__head">
+              <h1 class="t-title">Validación incorrecta</h1>
+              <img src={`${img}icon-x-circle.svg`} alt="" width="72" height="72" />
+              <p class="lead">Recuerda validar lo siguiente:</p>
+            </div>
+            <ul class="fail__list">
+              {reminders.map((r) => (
+                <li><img src={`${img}${r.src}`} alt="" width="48" height="48" /><span>{r.text}</span></li>
+              ))}
+            </ul>
+          </div>
+          <div class="guide__foot">
+            <button class="btn btn--wide" type="button" data-go="face-capture">Comenzar validación <img src={`${img}icon-camera.svg`} alt="" width="17" height="17" /></button>
+            <button class="btn-link" type="button" data-go="welcome">Volver al inicio</button>
+          </div>
+        </section>
+
+        <!-- 4.1–4.4 Document (front) guide -->
+        <section class="screen g-doc" data-screen="doc-guide" data-guide tabindex="-1" aria-label="Guía de cara frontal del documento" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="guide__main">
+            <div class="guide__head">
+              <h1 class="t-title">Valida tu Documento</h1>
+              <p class="t-sub">Cara frontal del documento</p>
+            </div>
+            <div class="guide__body">
+              {docSlides.map((s, i) => (
+                <div class="slide" hidden={i !== 0}>
+                  <div class="slide__art">
+                    {s.framed ? (
+                      <div class="framed"><img class="cover" src={`${img}${s.framed.src}`} alt="" width={s.framed.w} height={s.framed.h} style={`width:${s.framed.w}px;height:${s.framed.h}px`} /></div>
+                    ) : (
+                      <img class="cover" src={`${img}${s.art.src}`} alt="" width={s.art.w} height={s.art.h} style={`width:${s.art.w}px;height:${s.art.h}px`} />
+                    )}
+                    {s.blur && <img class="overlay-blur" src={`${img}${s.blur.src}`} alt="" width={s.blur.w} height={s.blur.h} />}
+                  </div>
+                  <p class="guide__text">{s.text}</p>
+                </div>
+              ))}
+              <div class="dots" role="group" aria-label="Consejos">
+                {docSlides.map((_, i) => (
+                  <button class="dot" type="button" aria-label={`Consejo ${i + 1} de ${docSlides.length}`}><svg width="13.775" height="17.775" viewBox="0 0 13.775 17.775" aria-hidden="true"><circle cx="6.8875" cy="8.8875" r="4.8875" fill="currentColor"/></svg></button>
+                ))}
+              </div>
+            </div>
+            <div class="guide__foot">
+              <button class="btn btn--wide" type="button" data-go="doc-capture">Comenzar validación <img src={`${img}icon-camera.svg`} alt="" width="17" height="17" /></button>
+              <button class="btn-link" type="button" data-go="welcome">Volver al inicio</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.5 Document capture -->
+        <section class="screen cam cam--doc" data-screen="doc-capture" tabindex="-1" aria-label="Captura de la cara frontal del documento" hidden>
+          <img class="cam__bg" src={`${img}s45-camera-bg.jpg`} alt="" width="700" height="272" />
+          <div class="cam__veil"><div class="cam__frame"></div></div>
+          <p class="cam__label">Ubica tu documento en el recuadro</p>
+          <div class="cam__doc"><div><img src={`${img}s45-doc-photo.jpg`} alt="Documento de identidad dentro del recuadro" width="800" height="490" /></div></div>
+          <div class="cam__bar">
+            <button class="shutter" type="button" data-action="capture-doc" aria-label="Tomar foto del documento">
+              <img class="ring" src={`${img}shutter-ring.svg`} alt="" width="99" height="99" />
+              <img class="inner" src={`${img}shutter-inner.svg`} alt="" width="79" height="79" />
+            </button>
+          </div>
+        </section>
+
+        <!-- 4.6 Document front review -->
+        <section class="screen g-doc" data-screen="doc-review" tabindex="-1" aria-label="Revisión de la cara frontal del documento" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="main">
+            <div class="main__content" style="align-items:center">
+              <h1 class="t-title">Valida tu Documento</h1>
+              <p class="t-sub">¿Se ve bien tu documento?</p>
+              <img class="review__photo" src={`${img}s46-doc-photo.jpg`} alt="Foto tomada de la cara frontal del documento" width="188" height="334" />
+              <p class="t-body">Asegúrate que se vea correctamente</p>
+            </div>
+            <div class="guide__foot">
+              <button class="btn btn--wide" type="button" data-go="back-guide">Continuar</button>
+              <button class="btn-link" type="button" data-go="doc-capture">Tomar de nuevo</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4.6 Document: incorrect validation -->
+        <section class="screen g-doc" data-screen="doc-fail" tabindex="-1" aria-label="Validación de documento incorrecta" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="main">
+            <div class="main__content" style="gap:16px;align-items:center">
+              <div class="fail__head">
+                <h1 class="t-title">Validación incorrecta</h1>
+                <img src={`${img}icon-x-circle.svg`} alt="" width="72" height="72" />
+                <p class="lead">Recuerda validar lo siguiente:</p>
+              </div>
+              <ul class="fail__list">
+                <li>
+                  <span class="crop48"><img src={`${img}s46f-check-photos.png`} alt="" width="186" height="100" style="width:140.48%;height:75.53%;left:8.97%;top:12.24%" /></span>
+                  <span>Toma una foto clara del documento.</span>
+                </li>
+                <li><img src={`${img}s46f-check-phone.png`} alt="" width="48" height="48" /><span>No muevas tu teléfono o cámara mientras tomas la foto.</span></li>
+                <li><img src={`${img}s46f-check-hologram.png`} alt="" width="48" height="48" /><span>Evita que el holograma cubra tu rostro. Si tienes protector plástico, retíralo.</span></li>
+              </ul>
+            </div>
+            <div class="guide__foot">
+              <button class="btn btn--wide" type="button" data-go="doc-capture">Comenzar validación <img src={`${img}icon-camera.svg`} alt="" width="17" height="17" /></button>
+              <button class="btn-link" type="button" data-go="welcome">Volver al inicio</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.1–5.4 Document reverse guide + issue date -->
+        <section class="screen g-doc" data-screen="back-guide" data-guide tabindex="-1" aria-label="Guía del reverso del documento" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="main">
+            <div class="main__content" style="height:369px;align-items:stretch">
+              <div class="guide__head" style="gap:8px">
+                <h1 class="t-title">Valida tu Documento</h1>
+                <p class="t-sub">Reverso de documento</p>
+              </div>
+              <div class="guide__body">
+                <div class="slide">
+                  <div class="slide__art">
+                    <div class="rev-frame"><div class="rev-box"><img src={`${img}s51-guide-doc-reverse.png`} alt="" width="304" height="196" style="width:160.65px;height:103.7px;transform:rotate(-90deg);object-fit:cover" /></div></div>
+                  </div>
+                  <p class="guide__text guide__text--240">Coloca el documento dentro del recuadro</p>
+                </div>
+                <div class="slide" hidden>
+                  <div class="slide__art">
+                    <div class="rev-phone">
+                      <img src={`${img}s52-guide-phone.png`} alt="" width="157" height="255" style="width:112.889px;height:184px;object-fit:cover" />
+                      <div class="rev-phone__doc"><img src={`${img}s51-guide-doc-reverse.png`} alt="" width="304" height="196" style="width:94px;height:60px;transform:rotate(-90deg);filter:blur(2px);object-fit:cover" /></div>
+                    </div>
+                  </div>
+                  <p class="guide__text guide__text--240">No muevas tu teléfono o cámara mientras tomas la foto</p>
+                </div>
+                <div class="slide" hidden>
+                  <div class="slide__art">
+                    <img src={`${img}s53-guide-doc-landscape.png`} alt="" width="373" height="201" style="width:186.5px;height:100.5px;object-fit:cover" />
+                  </div>
+                  <p class="guide__text guide__text--240">No muevas tu teléfono o cámara mientras tomas la foto</p>
+                </div>
+                <div class="dots" role="group" aria-label="Consejos">
+                  {[1, 2, 3].map((n) => (
+                    <button class="dot" type="button" aria-label={`Consejo ${n} de 3`}><svg width="13.775" height="17.775" viewBox="0 0 13.775 17.775" aria-hidden="true"><circle cx="6.8875" cy="8.8875" r="4.8875" fill="currentColor"/></svg></button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div class="date">
+              <label class="date__label" for="issue-date">Ingresa la fecha de <b>expedición</b></label>
+              <div class="field date__field" id="date-field">
+                <input id="issue-date" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="DD/MM/AAAA" aria-describedby="date-hint" />
+                <img class="date__icon" src={`${img}calendar-icon.svg`} alt="" width="16" height="16" />
+              </div>
+              <p class="sr-only" id="date-hint">Formato día, mes y año. Se necesita una fecha válida para comenzar la validación.</p>
+            </div>
+            <div class="guide__foot">
+              <button class="btn btn--wide btn--ghost" type="button" id="back-start" data-go="back-capture" disabled>Comenzar validación <img src={`${img}icon-camera.svg`} alt="" width="17" height="17" /></button>
+              <button class="btn-link" type="button" data-go="welcome">Volver al inicio</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5.5 Reverse capture -->
+        <section class="screen cam cam--doc" data-screen="back-capture" tabindex="-1" aria-label="Captura del reverso del documento" hidden>
+          <img class="cam__bg" src={`${img}s45-camera-bg.jpg`} alt="" width="700" height="272" />
+          <div class="cam__frame cam__frame--abs" style="left:58px;top:76px"></div>
+          <div class="cam__doc" style="left:75px;top:103px;width:225px;height:353px"><div style="width:353px;height:225px;border-radius:18px"><img src={`${img}s55-doc-in-frame.png`} alt="Reverso del documento dentro del recuadro" width="281" height="179" style="border-radius:18px" /></div></div>
+          <p class="cam__label" style="top:514px">Ubica tu documento en el recuadro</p>
+          <button class="shutter" type="button" data-action="capture-back" aria-label="Tomar foto del reverso" style="position:absolute;left:138px;top:546px">
+            <img class="ring" src={`${img}s55-shutter-ring.svg`} alt="" width="99" height="99" />
+            <img class="inner" src={`${img}s55-shutter-inner.svg`} alt="" width="79" height="79" />
+          </button>
+        </section>
+
+        <!-- 5.6 Reverse review -->
+        <section class="screen g-doc" data-screen="back-review" tabindex="-1" aria-label="Revisión del reverso del documento" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <div class="main">
+            <div class="main__content" style="align-items:center">
+              <h1 class="t-title">Valida tu Documento</h1>
+              <p class="t-sub">¿Se ve bien tu documento?</p>
+              <img class="review__photo" src={`${img}s56-doc-reverse-photo.jpg`} alt="Foto tomada del reverso del documento" width="188" height="334" />
+              <p class="t-body">Asegúrate que se vea correctamente</p>
+            </div>
+            <div class="guide__foot">
+              <button class="btn btn--wide" type="button" data-go="questions">Continuar</button>
+              <button class="btn-link" type="button" data-go="back-capture">Tomar de nuevo</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6.x Credit-history questions -->
+        <section class="screen s-questions" data-screen="questions" tabindex="-1" aria-label="Preguntas de historial crediticio" hidden>
+          <Stepper phase="identity" label="Identidad" />
+          <h1 class="t-title">Valida tu historial crediticio</h1>
+          <div class="main">
+            <div class="main__content">
+              <p class="t-body">Selecciona la opción que corresponda para continuar, recuerda que las preguntas se basan en tu historial crediticio.</p>
+              <div class="question">
+                <h2 class="question__title" id="q-title" aria-live="polite">Pregunta 1/3</h2>
+                <p class="t-body">¿Ha tenido cuenta de ahorros en los últimos 10 años en Colombia?</p>
+                <ul class="answers" id="answers">
+                  <li><button class="answer" type="button">Si</button></li>
+                  <li><button class="answer" type="button">Banco Davivienda</button></li>
+                  <li><button class="answer" type="button">Ninguna de las anteriores</button></li>
+                </ul>
+              </div>
+            </div>
+            <div class="result__stack" style="gap:4px;padding-top:0">
+              <button class="btn btn--wide" type="button" id="q-next" data-go="signature" hidden>Continuar</button>
+              <div class="nav-slot" style="height:auto"><button class="btn-link" type="button" data-go="welcome">Volver al inicio</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7.x Digital signature -->
+        <section class="screen s-sign" data-screen="signature" tabindex="-1" aria-label="Firma digital" hidden>
+          <Stepper phase="sign" label="Firma Digital" rounded labelId="sign-label" />
+          <button class="sign__doc" type="button" id="sign-doc" aria-label="Aceptar políticas">
+            <img id="sign-img" src={`${img}s71-signature-doc.png`} alt="Vista previa de la página de firma y aceptación de políticas" width="702" height="1600" style="height:222.12%;left:-4.66%;top:-107.45%;width:109.62%" />
+          </button>
+          <div class="sign__nav">
+            <p class="t-body" style="width:100%">Firma y acepta para poder Finalizar</p>
+            <button class="btn btn--solid" type="button" id="sign-finish" data-action="finish" disabled>Finalizar</button>
+          </div>
+        </section>
+
+        <!-- 8.1 / 8.2 Result -->
+        <section class="screen s-result" data-screen="result" data-result="study" tabindex="-1" aria-label="Solicitud en estudio" hidden>
+          <div class="result__hero"><div class="result__hero-box">
+            <img class="hero" src={`${img}s81-hero-small.jpg`} alt="" width="900" height="600" />
+            <img class="mark" src={`${img}s81-logo.png`} alt="Kreditime" width="1330" height="234" />
+          </div></div>
+          <div class="result__stack">
+            <h1 class="result__title">¡Tu solicitud esta en estudio!</h1>
+            <div class="result__card">
+              <p class="t-body" style="text-align:left">Nuestro equipo se encuentra validando tu perfil. En KREDITIME, es muy importante tu seguridad. nos contactaremos para comunicarte el resultado de nuestro estudio.</p>
+              <div class="result__rate">
+                <div class="result__rate-top">
+                  <p class="t-title">Tasa de interés para comprar hoy</p>
+                  <p class="result__rate-line"><img src={`${img}s81-icon-currency-exchange.svg`} alt="" width="24" height="24" />2.5 % M.V</p>
+                </div>
+                <p class="t-small">Interés mensual vigente para compras. Las tasas varían por mes consúltalas aquí.</p>
+              </div>
+              <button class="btn-primary" type="button" data-go="welcome">Volver al comercio</button>
+            </div>
+            <button class="btn-text" type="button" data-go="welcome">Ir a kreditime</button>
+          </div>
+        </section>
+
+        <section class="screen s-denied" data-screen="result-denied" tabindex="-1" aria-label="Solicitud negada" hidden>
+          <img class="logo" src={`${img}s81-logo.png`} alt="Kreditime" width="250" height="45" />
+          <div class="result__stack" style="flex:1;gap:48px;justify-content:center">
+            <h1 class="result__title">Tu solicitud fue negada</h1>
+            <div class="result__stack" style="flex:1;min-height:0">
+              <div class="result__card">
+                <p class="t-body" style="text-align:left">KREDITIME Te comunica que debemos rechazar tu solicitud.</p>
+                <p class="t-body" style="text-align:left">Pero no todo esta hecho, puedes mejorar tu puntaje crediticio y volverlo a intentar.</p>
+              </div>
+              <div class="result__stack">
+                <button class="btn-primary" type="button" data-go="welcome">Volver al comercio</button>
+                <button class="btn-text" type="button" data-go="welcome">Ir a kreditime</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="sim" aria-label="Controles de simulación">
+        <h2>Simulación</h2>
+        <fieldset>
+          <legend>Resultado final</legend>
+          <label><input type="radio" name="outcome" value="study" checked /> Solicitud en estudio</label>
+          <label><input type="radio" name="outcome" value="denied" /> Solicitud negada</label>
+        </fieldset>
+        <label><input type="checkbox" id="sim-fail" /> Mostrar validación incorrecta</label>
+        <p class="hint">Muestra la pantalla de error una vez en rostro y en documento.</p>
+        <label for="jump" style="display:block;margin-top:12px;font-weight:700">Ir a pantalla</label>
+        <select id="jump">
+          {screenNames.map(([id, name]) => <option value={id}>{name}</option>)}
+        </select>
+      </aside>
+    </div>
+
+    <script>
+      const screens = [...document.querySelectorAll<HTMLElement>('[data-screen]')];
+      const phone = document.querySelector<HTMLElement>('.phone')!;
+      const jump = document.getElementById('jump') as HTMLSelectElement;
+      const failToggle = document.getElementById('sim-fail') as HTMLInputElement;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let timers: number[] = [];
+      const failedOnce = { face: false, doc: false };
+
+      const later = (fn: () => void, ms: number) => { timers.push(window.setTimeout(fn, ms)); };
+      const clearTimers = () => { timers.forEach((t) => { clearTimeout(t); clearInterval(t); }); timers = []; };
+
+      /* ---- Navigation ---- */
+      const hooks: Record<string, () => void> = {};
+
+      function show(id: string) {
+        clearTimers();
+        let target: HTMLElement | undefined;
+        screens.forEach((s) => {
+          const on = s.dataset.screen === id;
+          s.hidden = !on;
+          if (on) target = s;
+        });
+        if (jump) {
+          const option = [...jump.options].find((o) => o.value === id);
+          if (option) jump.value = id;
+        }
+        hooks[id]?.();
+        target?.focus({ preventScroll: true });
+        phone.scrollTop = 0;
+      }
+
+      document.addEventListener('click', (event) => {
+        const el = (event.target as HTMLElement).closest<HTMLElement>('[data-go],[data-action]');
+        if (!el || (el as HTMLButtonElement).disabled) return;
+        if (el.dataset.action) { actions[el.dataset.action]?.(); return; }
+        if (el.dataset.go) show(el.dataset.go);
+      });
+
+      jump.addEventListener('change', () => {
+        failedOnce.face = false;
+        failedOnce.doc = false;
+        show(jump.value);
+        jump.focus({ preventScroll: true });
+      });
+
+      /* ---- Welcome ---- */
+      const consent = document.getElementById('consent-box')!;
+      consent.addEventListener('click', () => {
+        consent.setAttribute('aria-checked', String(consent.getAttribute('aria-checked') !== 'true'));
+      });
+
+      /* ---- Password visibility ---- */
+      document.querySelectorAll<HTMLButtonElement>('[data-eye]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const input = btn.parentElement!.querySelector('input')!;
+          const hidden = input.type === 'password';
+          input.type = hidden ? 'text' : 'password';
+          btn.setAttribute('aria-label', hidden ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        });
+      });
+
+      /* ---- Terms modal ---- */
+      const termsText = document.getElementById('terms-text')!;
+      const termsThumb = document.getElementById('terms-thumb')!;
+      const termsModal = document.getElementById('terms-modal')!;
+      const termsAccept = document.getElementById('terms-accept') as HTMLButtonElement;
+      const termsTitle = document.getElementById('terms-title')!;
+
+      function updateTerms() {
+        const max = termsText.scrollHeight - termsText.clientHeight;
+        const track = termsThumb.parentElement!.clientHeight - termsThumb.offsetHeight;
+        const ratio = max > 0 ? termsText.scrollTop / max : 1;
+        termsThumb.style.transform = `translateY(${Math.max(0, track) * ratio}px)`;
+        const end = max <= 0 || termsText.scrollTop >= max - 4;
+        termsModal.classList.toggle('is-end', end);
+        termsAccept.disabled = !end;
+        termsAccept.classList.toggle('btn--ghost', !end);
+        termsTitle.textContent = end ? 'Autoriza el tratamiento de datos' : 'Tratamiento de datos';
+      }
+      termsText.addEventListener('scroll', updateTerms, { passive: true });
+      hooks.terms = () => { termsText.scrollTop = 0; updateTerms(); };
+
+      /* ---- OTP ---- */
+      const otp = document.getElementById('otp')!;
+      const boxes = [...otp.querySelectorAll<HTMLInputElement>('.otp__box')];
+      const VALID_CODE = '789012';
+      const readCode = () => boxes.map((b) => b.value).join('');
+      const paintOtp = () => {
+        boxes.forEach((b) => b.classList.toggle('is-filled', b.value !== ''));
+        const code = readCode();
+        otp.classList.toggle('is-error', code.length === 6 && code !== VALID_CODE);
+      };
+      boxes.forEach((box, i) => {
+        box.addEventListener('input', () => {
+          box.value = box.value.replace(/\D/g, '').slice(-1);
+          if (box.value && boxes[i + 1]) boxes[i + 1].focus();
+          paintOtp();
+        });
+        box.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !box.value && boxes[i - 1]) { boxes[i - 1].focus(); boxes[i - 1].value = ''; paintOtp(); }
+        });
+        box.addEventListener('paste', (e) => {
+          const digits = (e.clipboardData?.getData('text') ?? '').replace(/\D/g, '').slice(0, 6);
+          if (!digits) return;
+          e.preventDefault();
+          boxes.forEach((b, k) => { b.value = digits[k] ?? ''; });
+          paintOtp();
+        });
+      });
+      hooks.otp = () => { boxes.forEach((b) => { b.value = ''; }); paintOtp(); };
+
+      /* ---- Guides (carousels) ---- */
+      document.querySelectorAll<HTMLElement>('[data-guide]').forEach((guide) => {
+        const slides = [...guide.querySelectorAll<HTMLElement>('.slide')];
+        const dots = [...guide.querySelectorAll<HTMLElement>('.dot')];
+        const link = guide.querySelector<HTMLElement>('[data-guide-link]');
+        let index = 0;
+        const set = (i: number) => {
+          index = i;
+          slides.forEach((s, k) => { s.hidden = k !== i; });
+          dots.forEach((d, k) => { d.classList.toggle('is-on', k === i); });
+          if (link && slides[i].dataset.link) link.textContent = slides[i].dataset.link!;
+        };
+        dots.forEach((d, k) => d.addEventListener('click', () => { clearTimers(); set(k); }));
+        hooks[guide.dataset.screen!] = () => {
+          set(0);
+          if (!reduceMotion) {
+            timers.push(window.setInterval(() => set((index + 1) % slides.length), 4000));
+          }
+        };
+      });
+
+      /* ---- Reverse guide: issue date ---- */
+      const dateInput = document.getElementById('issue-date') as HTMLInputElement;
+      const dateField = document.getElementById('date-field')!;
+      const dateIcon = dateField.querySelector('img')!;
+      const backStart = document.getElementById('back-start') as HTMLButtonElement;
+      const isValidDate = (v: string) => {
+        const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v);
+        if (!m) return false;
+        const [d, mo, y] = [Number(m[1]), Number(m[2]), Number(m[3])];
+        const dt = new Date(y, mo - 1, d);
+        return y >= 1900 && dt <= new Date() && dt.getFullYear() === y && dt.getMonth() === mo - 1 && dt.getDate() === d;
+      };
+      const paintDate = () => {
+        const ok = isValidDate(dateInput.value);
+        dateField.classList.toggle('is-valid', ok);
+        dateIcon.src = `/images/kreditime/flow/${ok ? 'calendar-icon-active' : 'calendar-icon'}.svg`;
+        backStart.disabled = !ok;
+        backStart.classList.toggle('btn--ghost', !ok);
+      };
+      // Stop the tips carousel from rotating while the user fills in the date.
+      dateInput.addEventListener('focus', clearTimers);
+      dateInput.addEventListener('input', () => {
+        const digits = dateInput.value.replace(/\D/g, '').slice(0, 8);
+        dateInput.value = digits.length > 4 ? `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+          : digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+        paintDate();
+      });
+      const backGuideHook = hooks['back-guide'];
+      hooks['back-guide'] = () => { backGuideHook?.(); dateInput.value = ''; paintDate(); };
+
+      /* ---- Camera ---- */
+      hooks['face-capture'] = () => {
+        later(() => {
+          if (failToggle.checked && !failedOnce.face) { failedOnce.face = true; show('face-fail'); }
+          else show('doc-guide');
+        }, 2400);
+      };
+
+      /* ---- Questions ---- */
+      const qTitle = document.getElementById('q-title')!;
+      const qNext = document.getElementById('q-next') as HTMLButtonElement;
+      const answers = [...document.querySelectorAll<HTMLButtonElement>('.answer')];
+      let q = 1;
+      const resetQuestions = () => {
+        q = 1;
+        qTitle.textContent = 'Pregunta 1/3';
+        qNext.hidden = true;
+        answers.forEach((a) => a.classList.remove('is-selected'));
+      };
+      answers.forEach((a) => a.addEventListener('click', () => {
+        answers.forEach((x) => { x.classList.remove('is-selected'); x.removeAttribute('aria-pressed'); });
+        a.classList.add('is-selected');
+        a.setAttribute('aria-pressed', 'true');
+        if (q < 3) {
+          later(() => {
+            q += 1;
+            qTitle.textContent = `Pregunta ${q}/3`;
+            answers.forEach((x) => { x.classList.remove('is-selected'); x.removeAttribute('aria-pressed'); });
+          }, 450);
+        } else {
+          qNext.hidden = false;
+        }
+      }));
+      hooks.questions = resetQuestions;
+
+      /* ---- Signature ---- */
+      const signDoc = document.getElementById('sign-doc') as HTMLButtonElement;
+      const signImg = document.getElementById('sign-img') as HTMLImageElement;
+      const signLabel = document.getElementById('sign-label')!;
+      const signFinish = document.getElementById('sign-finish') as HTMLButtonElement;
+      const base = '/images/kreditime/flow/';
+      let signStep = 1;
+      const paintSign = () => {
+        if (signStep === 1) {
+          signImg.src = `${base}s71-signature-doc.png`;
+          Object.assign(signImg.style, { height: '222.12%', left: '-4.66%', top: '-107.45%', width: '109.62%' });
+          signLabel.textContent = 'Firma Digital';
+          signDoc.setAttribute('aria-label', 'Aceptar políticas');
+          signFinish.disabled = true;
+        } else {
+          signImg.src = `${base}s72-signature-doc.png`;
+          signImg.alt = 'Vista previa de los documentos por firmar';
+          Object.assign(signImg.style, { height: '215.22%', left: '-5.04%', top: '-85.97%', width: '110.55%' });
+          signLabel.textContent = signStep === 2 ? 'Firma Digital' : 'Contratar KREDITIME';
+          signDoc.setAttribute('aria-label', signStep === 2 ? 'Firmar documento' : 'Documentos firmados');
+          signFinish.disabled = signStep !== 3;
+        }
+      };
+      signDoc.addEventListener('click', () => { if (signStep < 3) { signStep += 1; paintSign(); } });
+      hooks.signature = () => { signStep = 1; paintSign(); };
+
+      /* ---- Actions ---- */
+      const actions: Record<string, () => void> = {
+        'otp-next': () => {
+          const code = readCode();
+          if (code.length < 6) {
+            // Demo shortcut: fill the sample code so the flow can continue.
+            boxes.forEach((b, i) => { b.value = VALID_CODE[i]; });
+            paintOtp();
+            return;
+          }
+          if (code !== VALID_CODE) { boxes[0].focus(); return; }
+          show('face-guide');
+        },
+        'capture-doc': () => {
+          if (failToggle.checked && !failedOnce.doc) { failedOnce.doc = true; show('doc-fail'); }
+          else show('doc-review');
+        },
+        'capture-back': () => show('back-review'),
+        'finish': () => {
+          const denied = (document.querySelector('input[name=outcome]:checked') as HTMLInputElement).value === 'denied';
+          show(denied ? 'result-denied' : 'result');
+        }
+      };
+
+      show('welcome');
+    </script>
+  </body>
+</html>
