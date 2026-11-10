@@ -46,34 +46,79 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 3. Send email via Resend
-    // Use RESEND_API_KEY from environment variables (Vercel sets this).
+    // 3. Deliver the message. Two optional channels: Google Sheets and Resend email.
+    // The request succeeds if at least one configured channel works.
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+    const cleanMessage = message.trim();
+    const escapeHtml = (value: string) =>
+      value
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+    let sheetOk = false;
+    let emailOk = false;
+    let configured = 0;
+
+    // 3a. Google Sheets via Apps Script web app
+    const sheetUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL || import.meta.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    const sheetSecret = process.env.GOOGLE_SHEETS_SECRET || import.meta.env.GOOGLE_SHEETS_SECRET;
+    if (sheetUrl) {
+      configured++;
+      try {
+        const res = await fetch(sheetUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            secret: sheetSecret,
+            name: cleanName,
+            email: cleanEmail,
+            message: cleanMessage,
+            locale: typeof body.locale === 'string' ? body.locale : '',
+          }),
+          redirect: 'follow',
+        });
+        const result = await res.json();
+        sheetOk = res.ok && result.success === true;
+        if (!sheetOk) console.error('Google Sheets error:', result);
+      } catch (err) {
+        console.error('Google Sheets request failed:', err);
+      }
+    }
+
+    // 3b. Email via Resend
     const apiKey = process.env.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
-    if (!apiKey) {
-      console.error('RESEND_API_KEY environment variable is not defined.');
+    if (apiKey) {
+      configured++;
+      const resend = new Resend(apiKey);
+      const { error } = await resend.emails.send({
+        from: 'Portfolio Contact <onboarding@resend.dev>',
+        to: site.email,
+        subject: `New Contact Form Message from ${cleanName}`,
+        replyTo: cleanEmail,
+        html: `
+          <h2>New Message from portfolio contact form</h2>
+          <p><strong>Name:</strong> ${escapeHtml(cleanName)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(cleanEmail)}</p>
+          <p><strong>Message:</strong></p>
+          <p style="white-space: pre-wrap; font-family: sans-serif; background-color: #f7f7f7; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">${escapeHtml(cleanMessage)}</p>
+        `,
+      });
+      emailOk = !error;
+      if (error) console.error('Resend error:', error);
+    }
+
+    if (configured === 0) {
+      console.error('No delivery channel configured (GOOGLE_SHEETS_WEBHOOK_URL / RESEND_API_KEY).');
       return new Response(
         JSON.stringify({ error: 'Mail service configuration error.' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const resend = new Resend(apiKey);
-    const { data, error } = await resend.emails.send({
-      from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: site.email,
-      subject: `New Contact Form Message from ${name.trim()}`,
-      replyTo: email.trim(),
-      html: `
-        <h2>New Message from portfolio contact form</h2>
-        <p><strong>Name:</strong> ${name.trim()}</p>
-        <p><strong>Email:</strong> ${email.trim()}</p>
-        <p><strong>Message:</strong></p>
-        <p style="white-space: pre-wrap; font-family: sans-serif; background-color: #f7f7f7; padding: 15px; border-radius: 4px; border: 1px solid #ddd;">${message.trim()}</p>
-      `,
-    });
-
-    if (error) {
-      console.error('Resend error:', error);
+    if (!sheetOk && !emailOk) {
       return new Response(
         JSON.stringify({ error: 'Failed to send message.' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
@@ -81,7 +126,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, id: data?.id }),
+      JSON.stringify({ success: true }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err) {

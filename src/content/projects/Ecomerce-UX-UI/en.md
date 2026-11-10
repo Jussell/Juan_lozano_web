@@ -59,9 +59,10 @@ Additionally, product categorization was organized "by occasion," alongside edit
 
 With the prototyped solutions, we conducted usability testing with 8 participants (compensated with a shopping incentive). The measured variables sought to specifically validate the problems detected during research:
 
-1. **Volume of product-related questions:** To measure whether the new descriptions and content resolved the aspirational profile's doubts before reaching checkout.
-2. **Size validation:** To verify if the new dynamic size guide reduced friction and the fear of returns.
-3. **Perception of customer service quality:** To verify if features like assisted shopping and exclusive benefits successfully translated the physical store's VIP feeling to the web.
+1. **Perceived UI quality across all brands:** To check whether any details kept users from perceiving the quality of the UI.
+2. **Volume of product-related questions:** To measure whether the new descriptions and content resolved the aspirational profile's doubts before reaching checkout.
+3. **Size validation:** To verify if the new dynamic size guide reduced friction and the fear of returns.
+4. **Perception of customer service quality:** To verify if features like assisted shopping and exclusive benefits successfully translated the physical store's VIP feeling to the web.
 
 ## Results
 

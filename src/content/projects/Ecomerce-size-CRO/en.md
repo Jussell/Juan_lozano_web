@@ -105,6 +105,6 @@ For business reasons, the project was put on hold at this stage in October 2026.
 
 ## Learnings
 
-Conversion funnel optimization and user experience are directly related. Improving the user experience can therefore help optimize the funnel.
+Conversion funnel optimization and user experience are directly related. Improving the user experience, as long as it addresses the main pain point, improves business metrics, as happened with the average exchange and return rates.
 
 Global sizing standards used in other markets need to be adapted to the needs of the target market. Even small size variations can strongly affect how users perceive fit, conversion rates, and product returns, as well as CRO and the overall user journey.

@@ -10,7 +10,7 @@ status: published
 featured: true
 cover: images/kreditime/kreditime_hero.png
 tags: [Fintech, UX/UI, Design Thinking, Product Management]
-tools: [Figma, miro]
+tools: [Figma, Miro, Clarity, Google Analytics]
 order: 3
 ---
 
