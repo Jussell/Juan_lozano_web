@@ -6,7 +6,7 @@ shortTitle: Financial Wellbeing
 summary: Case study from a UI challenge on the Día a Día section of Mi Bancolombia, focused on balance transparency, transactions and automatic debits.
 role: Product Designer (research, UX and UI)
 duration: "3 days"
-status: finalizado
+status: published
 featured: true
 cover: images/bancolombia/cuenta.png
 tags: [Fintech, UX/UI, Research, Banking]
