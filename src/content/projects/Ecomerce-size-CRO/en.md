@@ -11,7 +11,7 @@ featured: true
 cover: images/crocs-sizes-cover.png
 tags: [Research, UI, UX research, CRO]
 tools: [Figma, Microsoft Clarity, Google Analytics]
-nextSlug: payment-app
+nextSlug: Ecomerce-UX-UI
 order: 1
 ---
 

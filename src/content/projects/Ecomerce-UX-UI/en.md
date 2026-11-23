@@ -11,7 +11,7 @@ featured: true
 cover: images/malva_cover.png
 tags: [Research, UI, Workshops, UX]
 tools: [Figma, Miro, Clarity]
-nextSlug: payment-app
+nextSlug: kreditime
 order: 2
 ---
 

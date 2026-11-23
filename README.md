@@ -14,6 +14,7 @@ Open the local URL printed by Astro. Production output is generated with:
 ```bash
 npm run build
 ```
+http://localhost:4321
 
 Vercel is the primary deployment platform. GitHub Pages remains configured as a backup deployment from the `main` branch.
 
